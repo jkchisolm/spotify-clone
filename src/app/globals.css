@@ -25,3 +25,14 @@ body {
     )
     rgb(var(--background-start-rgb));
 } */
+
+.main-layout {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: 9fr 1fr;
+  grid-template-areas:
+    "navbar mainpage queue"
+    "nowplaying nowplaying nowplaying";
+  grid-column-gap: 5px;
+  grid-row-gap: 5px;
+}
