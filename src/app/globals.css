@@ -29,7 +29,7 @@ body {
 .main-layout {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
-  grid-template-rows: 9fr 1fr;
+  grid-template-rows: 10fr 0.75fr;
   grid-template-areas:
     "navbar mainpage queue"
     "nowplaying nowplaying nowplaying";

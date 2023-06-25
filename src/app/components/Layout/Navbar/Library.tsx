@@ -25,7 +25,12 @@ export default function Library() {
             <div className="font-bold">Create your first playlist</div>
             <div className="my-1">It&apos;s easy, we&apos;ll help you.</div>
             <div className="my-4">
-              <Button color="bg-white" textColor="text-black" style="pill">
+              <Button
+                color="bg-white"
+                hoverColor="bg-slate-400"
+                textColor="text-black"
+                style="pill"
+              >
                 Create playlist
               </Button>
             </div>
@@ -38,7 +43,12 @@ export default function Library() {
               We&apos;ll keep you updated on new episodes.
             </div>
             <div className="my-4">
-              <Button color="bg-white" textColor="text-black" style="pill">
+              <Button
+                color="bg-white"
+                hoverColor="bg-slate-400"
+                textColor="text-black"
+                style="pill"
+              >
                 Browse podcasts
               </Button>
             </div>

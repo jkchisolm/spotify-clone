@@ -25,7 +25,9 @@ export default function RootLayout({
     <html lang="en" className={montserrat.className}>
       <body className="bg-black w-screen h-screen p-2 main-layout">
         <Navbar />
-        <div className={`relative ${queueOpen ? "col-span-1" : "col-span-2"}`}>
+        <div
+          className={`${queueOpen ? "col-span-1" : "col-span-2"} flex flex-col`}
+        >
           <Topbar />
           {children}
         </div>
