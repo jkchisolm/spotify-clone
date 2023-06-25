@@ -7,6 +7,7 @@ import Navbar from "./components/Layout/Navbar/Navbar";
 
 import { Montserrat } from "next/font/google";
 import Topbar from "./components/Layout/Topbar/Topbar";
+import UnauthorizedNP from "./components/Layout/NowPlaying/UnathorizedNP";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -20,6 +21,7 @@ export default function RootLayout({
 }) {
   const [currentlyPlaying, setCurrentlyPlaying] = useState(false);
   const [queueOpen, setQueueOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   return (
     <html lang="en" className={montserrat.className}>
@@ -31,6 +33,7 @@ export default function RootLayout({
           <Topbar />
           {children}
         </div>
+        {loggedIn ? <div>Logged in section</div> : <UnauthorizedNP />}
       </body>
     </html>
   );
