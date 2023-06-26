@@ -22,7 +22,7 @@ export default function Topbar() {
 
   return (
     <div
-      className={`sticky top-0 left-0 right-0 text-white pt-4 flex flex-row justify-between items-center`}
+      className={`sticky top-0 left-0 right-0 text-white bg-black pt-4 flex flex-row justify-between items-center`}
     >
       <BrowsingControls />
       {loggedIn ? (

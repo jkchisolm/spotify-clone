@@ -28,7 +28,9 @@ export default function RootLayout({
       <body className="bg-black w-screen h-screen p-2 main-layout">
         <Navbar />
         <div
-          className={`${queueOpen ? "col-span-1" : "col-span-2"} flex flex-col`}
+          className={`${
+            queueOpen ? "col-span-1" : "col-span-2"
+          } flex flex-col overflow-auto`}
         >
           <Topbar />
           {children}

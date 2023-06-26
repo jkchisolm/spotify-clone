@@ -19,6 +19,9 @@ export default function Home() {
   const [userPlaylists, setUserPlaylists] =
     useState<SpotifyApi.PlaylistObjectSimplified[]>();
 
+  const [featuredPlaylists, setFeaturedPlaylists] =
+    useState<SpotifyApi.PlaylistObjectSimplified[]>();
+
   const fetchUserPlaylists = () => {
     let spotifyApi = new SpotifyWebApi();
     spotifyApi.setAccessToken(Cookies.get("access_token")!);
@@ -41,6 +44,16 @@ export default function Home() {
     });
   };
 
+  const fetchFeaturedPlaylists = () => {
+    let spotifyApi = new SpotifyWebApi();
+    spotifyApi.setAccessToken(Cookies.get("access_token")!);
+
+    spotifyApi.getFeaturedPlaylists({ limit: 7 }).then((data) => {
+      console.log(data);
+      setFeaturedPlaylists(data.playlists.items);
+    });
+  };
+
   useEffect(() => {
     let date = new Date();
     let hour = date.getHours();
@@ -60,15 +73,16 @@ export default function Home() {
       // if logged in, use the Web API to fetch some playlists to display
       fetchUserPlaylists();
       fetchTopPlaylists();
+      fetchFeaturedPlaylists();
     } else {
       setLoggedIn(false);
     }
   }, [Cookies.get("access_token")]);
 
   return (
-    <div className="text-white bg-zinc-900 w-full h-full my-2 rounded">
+    <div className="text-white bg-zinc-900 w-full h-full mt-2 rounded">
       {loggedIn ? (
-        <div className="bg-gradient-to-b from-green-800 from-10% to-zinc-900 to-50%">
+        <div className="">
           <div className="text-3xl font-bold ml-2 pt-5">{welcomeString}</div>
           <div>
             {userPlaylists != undefined && (
@@ -81,8 +95,17 @@ export default function Home() {
               <div className="mt-4 mx-3">
                 <PlaylistCategoryRow
                   playlists={topPlaylists}
-                  rowName="Top Playlists For You"
+                  rowName="Top Playlists"
                   rowCategory="toplists"
+                />
+              </div>
+            )}
+            {featuredPlaylists != undefined && (
+              <div className="mt-4 mx-3">
+                <PlaylistCategoryRow
+                  playlists={featuredPlaylists}
+                  rowName="Featured Playlists"
+                  rowCategory="featured"
                 />
               </div>
             )}

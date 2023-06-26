@@ -6,7 +6,7 @@ export default function Library() {
   const [playlists, setPlaylists] = useState([]);
 
   return (
-    <div className="bg-zinc-900 rounded flex flex-col my-2 text-white p-2 h-full">
+    <div className="bg-zinc-900 rounded flex flex-col mt-2 text-white p-2 h-full">
       <div className="flex flex-row justify-between items-center">
         <div>
           <h1 className="text-lg text-zinc-500 font-bold flex flex-row items-center">

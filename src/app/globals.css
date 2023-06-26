@@ -36,3 +36,15 @@ body {
   grid-column-gap: 5px;
   grid-row-gap: 5px;
 }
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
