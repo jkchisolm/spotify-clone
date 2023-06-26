@@ -4,8 +4,9 @@ import Cookies from "js-cookie";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
-import PlaylistRow from "./components/Layout/MusicDisplays/Playlist/PlaylistRow";
+import PlaylistRow from "./components/Layout/MusicDisplays/Playlist/PlaylistCategoryRow";
 import UserPlaylistRow from "./components/Layout/MusicDisplays/Playlist/UserPlaylistRow";
+import PlaylistCategoryRow from "./components/Layout/MusicDisplays/Playlist/PlaylistCategoryRow";
 
 export default function Home() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -29,16 +30,16 @@ export default function Home() {
     });
   };
 
-  // const fetchNewPlaylists = () => {
-  //   let spotifyApi = new SpotifyWebApi();
-  //   spotifyApi.setAccessToken(Cookies.get("access_token")!);
+  const fetchTopPlaylists = () => {
+    let spotifyApi = new SpotifyWebApi();
+    spotifyApi.setAccessToken(Cookies.get("access_token")!);
 
-  //   // get the top playlists
-  //   spotifyApi.getCategoryPlaylists("toplists").then((data) => {
-  //     console.log(data);
-  //     setTopPlaylists(data.playlists.items);
-  //   });
-  // };
+    // get the top playlists
+    spotifyApi.getCategoryPlaylists("toplists", { limit: 7 }).then((data) => {
+      console.log(data);
+      setTopPlaylists(data.playlists.items);
+    });
+  };
 
   useEffect(() => {
     let date = new Date();
@@ -57,8 +58,8 @@ export default function Home() {
     if (Cookies.get("access_token")) {
       setLoggedIn(true);
       // if logged in, use the Web API to fetch some playlists to display
-      // fetchNewPlaylists();
       fetchUserPlaylists();
+      fetchTopPlaylists();
     } else {
       setLoggedIn(false);
     }
@@ -67,7 +68,7 @@ export default function Home() {
   return (
     <div className="text-white bg-zinc-900 w-full h-full my-2 rounded">
       {loggedIn ? (
-        <div className="bg-gradient-to-b from-green-800 from-10% to-zinc-900">
+        <div className="bg-gradient-to-b from-green-800 from-10% to-zinc-900 to-50%">
           <div className="text-3xl font-bold ml-2 pt-5">{welcomeString}</div>
           <div>
             {userPlaylists != undefined && (
@@ -75,7 +76,15 @@ export default function Home() {
                 rowName="Good evening"
                 playlists={userPlaylists}
               />
-              // <PlaylistRow rowName="Top Playlists" playlists={topPlaylists} />
+            )}
+            {topPlaylists != undefined && (
+              <div className="mt-4 mx-3">
+                <PlaylistCategoryRow
+                  playlists={topPlaylists}
+                  rowName="Top Playlists For You"
+                  rowCategory="toplists"
+                />
+              </div>
             )}
           </div>
         </div>

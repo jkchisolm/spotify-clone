@@ -5,18 +5,28 @@ type Props = {
 };
 
 export default function PlaylistCard({ playlist }: Props) {
+  // truncate the description if it's too long
+  // if (playlist.description!.length > 45) {
+  //   playlist.description = playlist.description!.slice(0, 38) + "...";
+  // }
+
   return (
     <div
-      className="flex flex-col p-3 bg-zinc-800 mx-3 min-w-[30rem]"
+      className="col-span-1 flex flex-col p-3 grow bg-zinc-800 mx-3 rounded hover:bg-zinc-700 hover:cursor-pointer"
       key={playlist.id}
     >
-      <Image
-        src={playlist.images[0].url}
-        alt={playlist.name}
-        width={300}
-        height={300}
-      />
-      <div className="text-white">{playlist.name}</div>
+      <div className="relative w-full aspect-square">
+        <Image
+          fill
+          className="object-cover"
+          src={playlist.images[0].url}
+          alt={playlist.name}
+        />
+      </div>
+      <div className="text-white font-bold mt-2">{playlist.name}</div>
+      <div className="text-zinc-400 text-xs line-clamp-2">
+        {playlist.description}
+      </div>
     </div>
   );
 }
