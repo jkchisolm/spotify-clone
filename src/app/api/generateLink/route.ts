@@ -21,7 +21,8 @@ export async function GET(request: Request) {
 
   console.log(redirectUri);
 
-  const scope = "streaming user-read-email user-read-private";
+  const scope =
+    "streaming user-read-email user-read-private playlist-read-private playlist-modify-public playlist-modify-private";
   const state = generateRandomString(16);
   const authQueryParams = new URLSearchParams({
     response_type: "code",

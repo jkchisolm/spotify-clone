@@ -50,14 +50,5 @@ export async function GET(request: NextRequest) {
         ? "https://recreatify.jkchisolm.com"
         : "http://localhost:3000"
     );
-
-    // return new Response("", {
-    //   status: 200,
-    //   headers: {
-    //     "Set-Cookie": `access_token=${access_token}; path=/; HttpOnly; SameSite=Strict; Secure`,
-    //     "Set-Cookie": `refresh_token=${refresh_token}; path=/; HttpOnly; SameSite=Strict; Secure`,
-    //     Location: "/",
-    //   },
-    // });
   }
 }
