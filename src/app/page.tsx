@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks/hooks";
-import { setTokens } from "@/store/slices/apiSlice";
+import { setTokens } from "@/store/slices/spotifyApiSlice";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
@@ -10,7 +10,9 @@ import UserPlaylistRow from "./components/Layout/MusicDisplays/Playlist/UserPlay
 
 export default function Home() {
   // const [loggedIn, setLoggedIn] = useState(false);
-  const loggedIn = useAppSelector((state) => state.api.userAuthenticated);
+  const loggedIn = useAppSelector(
+    (state) => state.spotifyApi.userAuthenticated
+  );
 
   const dispatch = useAppDispatch();
 

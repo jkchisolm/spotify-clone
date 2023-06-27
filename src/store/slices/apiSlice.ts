@@ -1,32 +1,20 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import SpotifyWebApi from "spotify-web-api-js";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import Cookies from "js-cookie";
 
-interface ApiState {
-  userAuthenticated: boolean;
-  apiClient: SpotifyWebApi.SpotifyWebApiJs;
-  refreshToken?: string;
-}
-
-const initialState: ApiState = {
-  userAuthenticated: false,
-  apiClient: new SpotifyWebApi(),
-};
-
-export const apiSlice = createSlice({
-  name: "api",
-  initialState,
-  reducers: {
-    setTokens: (
-      state,
-      action: PayloadAction<{ accessToken: string; refreshToken: string }>
-    ) => {
-      state.userAuthenticated = true;
-      state.apiClient.setAccessToken(action.payload.accessToken);
-      state.refreshToken = action.payload.refreshToken;
+export const apiSlice = createApi({
+  reducerPath: "webApi",
+  baseQuery: fetchBaseQuery({
+    baseUrl: "https://api.spotify.com/v1/",
+    prepareHeaders: (headers) => {
+      headers.set("Authorization", `Bearer ${Cookies.get("access_token")}`);
+      return headers;
     },
-  },
+  }),
+  endpoints: (builder) => ({
+    getMe: builder.query<SpotifyApi.CurrentUsersProfileResponse, void>({
+      query: () => "me",
+    }),
+  }),
 });
 
-export const { setTokens } = apiSlice.actions;
-
-export default apiSlice.reducer;
+export const { useGetMeQuery, useLazyGetMeQuery } = apiSlice;

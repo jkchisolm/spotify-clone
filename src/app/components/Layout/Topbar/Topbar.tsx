@@ -3,9 +3,25 @@
 import { useAppSelector } from "@/lib/hooks/hooks";
 import Button from "../../general/Button";
 import BrowsingControls from "./BrowsingControls";
+import { useGetMeQuery, useLazyGetMeQuery } from "@/store/slices/apiSlice";
+import { useEffect } from "react";
 
 export default function Topbar() {
-  const loggedIn = useAppSelector((state) => state.api.userAuthenticated);
+  const loggedIn = useAppSelector(
+    (state) => state.spotifyApi.userAuthenticated
+  );
+
+  const [trigger, { isLoading, isError, data, error }] = useLazyGetMeQuery();
+
+  useEffect(() => {
+    if (loggedIn) {
+      trigger();
+    }
+  }, [loggedIn]);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   const handleLogin = async () => {
     console.log("Logging in");
@@ -26,7 +42,7 @@ export default function Topbar() {
     >
       <BrowsingControls />
       {loggedIn ? (
-        <div>User is logged in</div>
+        <div>Welcome, {data?.display_name}</div>
       ) : (
         <div>
           <Button
