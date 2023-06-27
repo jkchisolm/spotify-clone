@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import BrowsingControls from "./BrowsingControls";
+import { useAppSelector } from "@/lib/hooks/hooks";
 import Button from "../../general/Button";
+import BrowsingControls from "./BrowsingControls";
 
 export default function Topbar() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const loggedIn = useAppSelector((state) => state.api.userAuthenticated);
 
   const handleLogin = async () => {
     console.log("Logging in");

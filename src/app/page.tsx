@@ -1,15 +1,18 @@
 "use client";
 
+import { useAppDispatch, useAppSelector } from "@/lib/hooks/hooks";
+import { setTokens } from "@/store/slices/apiSlice";
 import Cookies from "js-cookie";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
-import PlaylistRow from "./components/Layout/MusicDisplays/Playlist/PlaylistCategoryRow";
-import UserPlaylistRow from "./components/Layout/MusicDisplays/Playlist/UserPlaylistRow";
 import PlaylistCategoryRow from "./components/Layout/MusicDisplays/Playlist/PlaylistCategoryRow";
+import UserPlaylistRow from "./components/Layout/MusicDisplays/Playlist/UserPlaylistRow";
 
 export default function Home() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  // const [loggedIn, setLoggedIn] = useState(false);
+  const loggedIn = useAppSelector((state) => state.api.userAuthenticated);
+
+  const dispatch = useAppDispatch();
 
   const [welcomeString, setWelcomeString] = useState("");
 
@@ -68,14 +71,26 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (Cookies.get("access_token")) {
-      setLoggedIn(true);
-      // if logged in, use the Web API to fetch some playlists to display
+    if (loggedIn) {
       fetchUserPlaylists();
       fetchTopPlaylists();
       fetchFeaturedPlaylists();
+    }
+  }, [loggedIn]);
+
+  useEffect(() => {
+    if (Cookies.get("access_token")) {
+      // setLoggedIn(true);
+      dispatch(
+        setTokens({
+          accessToken: Cookies.get("access_token")!,
+          refreshToken: Cookies.get("refresh_token")!,
+        })
+      );
+      // if logged in, use the Web API to fetch some playlists to display
     } else {
-      setLoggedIn(false);
+      // setLoggedIn(false);
+      // do nothing for now, deal with this later
     }
   }, [Cookies.get("access_token")]);
 
