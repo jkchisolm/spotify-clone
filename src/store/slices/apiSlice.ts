@@ -1,6 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import Cookies from "js-cookie";
 
+type getUserPlaylistsResponse = {
+  items: SpotifyApi.PlaylistObjectSimplified[];
+};
+
 export const apiSlice = createApi({
   reducerPath: "webApi",
   baseQuery: fetchBaseQuery({
@@ -14,7 +18,18 @@ export const apiSlice = createApi({
     getMe: builder.query<SpotifyApi.CurrentUsersProfileResponse, void>({
       query: () => "me",
     }),
+    getUserPlaylists: builder.query<
+      getUserPlaylistsResponse,
+      { limit?: number }
+    >({
+      query: () => "me/playlists",
+    }),
   }),
 });
 
-export const { useGetMeQuery, useLazyGetMeQuery } = apiSlice;
+export const {
+  useGetMeQuery,
+  useLazyGetMeQuery,
+  useGetUserPlaylistsQuery,
+  useLazyGetUserPlaylistsQuery,
+} = apiSlice;
