@@ -26,22 +26,8 @@ export default function Home() {
   const [topPlaylists, setTopPlaylists] =
     useState<SpotifyApi.PlaylistObjectSimplified[]>();
 
-  const [userPlaylists, setUserPlaylists] =
-    useState<SpotifyApi.PlaylistObjectSimplified[]>();
-
   const [featuredPlaylists, setFeaturedPlaylists] =
     useState<SpotifyApi.PlaylistObjectSimplified[]>();
-
-  // const fetchUserPlaylists = () => {
-  //   let spotifyApi = new SpotifyWebApi();
-  //   spotifyApi.setAccessToken(Cookies.get("access_token")!);
-
-  //   // get the user's playlists
-  //   spotifyApi.getUserPlaylists().then((data) => {
-  //     console.log(data);
-  //     setUserPlaylists(data.items.slice(0, 6));
-  //   });
-  // };
 
   const fetchTopPlaylists = () => {
     let spotifyApi = new SpotifyWebApi();
