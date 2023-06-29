@@ -4,6 +4,7 @@ import SpotifyWebApi from "spotify-web-api-js";
 interface ApiState {
   userAuthenticated: boolean;
   apiClient: SpotifyWebApi.SpotifyWebApiJs;
+  accessToken?: string;
   refreshToken?: string;
 }
 
@@ -22,6 +23,7 @@ export const spotifyApiSlice = createSlice({
     ) => {
       state.userAuthenticated = true;
       state.apiClient.setAccessToken(action.payload.accessToken);
+      state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
     },
   },

@@ -24,6 +24,21 @@ export const apiSlice = createApi({
     >({
       query: () => "me/playlists",
     }),
+    refreshAccessToken: builder.query<{ access_token: string }, void>({
+      query: () => ({
+        url: "https://accounts.spotify.com/api/token",
+        method: "POST",
+        body: `grant_type=refresh_token&refresh_token=${Cookies.get(
+          "refresh_token"
+        )}`,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Basic ${btoa(
+            `${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOITFY_CLIENT_SECRET}`
+          )}`,
+        },
+      }),
+    }),
   }),
 });
 
@@ -32,4 +47,6 @@ export const {
   useLazyGetMeQuery,
   useGetUserPlaylistsQuery,
   useLazyGetUserPlaylistsQuery,
+  useRefreshAccessTokenQuery,
+  useLazyRefreshAccessTokenQuery,
 } = apiSlice;

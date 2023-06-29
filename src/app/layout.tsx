@@ -9,6 +9,9 @@ import { Provider } from "react-redux";
 import { store } from "../store/store";
 import UnauthorizedNP from "./components/Layout/NowPlaying/UnathorizedNP";
 import Topbar from "./components/Layout/Topbar/Topbar";
+import Player from "./components/Layout/NowPlaying/Player";
+import { useAppSelector } from "@/lib/hooks/hooks";
+import Cookies from "js-cookie";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -22,7 +25,11 @@ export default function RootLayout({
 }) {
   const [currentlyPlaying, setCurrentlyPlaying] = useState(false);
   const [queueOpen, setQueueOpen] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+  // const [loggedIn, setLoggedIn] = useState(false);
+  // const loggedIn = useAppSelector(
+  //   (state) => state.spotifyApi.userAuthenticated
+  // );
+  const loggedIn = Cookies.get("access_token") ? true : false;
 
   return (
     <html lang="en" className={montserrat.className}>
@@ -37,7 +44,7 @@ export default function RootLayout({
             <Topbar />
             {children}
           </div>
-          {loggedIn ? <div>Logged in section</div> : <UnauthorizedNP />}
+          <Player />
         </body>
       </Provider>
     </html>
