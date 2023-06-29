@@ -1,15 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import "./globals.css";
-import gotham from "@/lib/fonts/GothamFont";
 import Navbar from "./components/Layout/Navbar/Navbar";
+import "./globals.css";
 
 import { Montserrat } from "next/font/google";
-import Topbar from "./components/Layout/Topbar/Topbar";
-import UnauthorizedNP from "./components/Layout/NowPlaying/UnathorizedNP";
 import { Provider } from "react-redux";
 import { store } from "../store/store";
+import UnauthorizedNP from "./components/Layout/NowPlaying/UnathorizedNP";
+import Topbar from "./components/Layout/Topbar/Topbar";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
