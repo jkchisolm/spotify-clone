@@ -1,44 +1,54 @@
 "use client";
 
+import { useAppDispatch, useAppSelector } from "@/lib/hooks/hooks";
+import { setTokens } from "@/store/slices/spotifyApiSlice";
 import Cookies from "js-cookie";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
-import PlaylistRow from "./components/Layout/MusicDisplays/Playlist/PlaylistRow";
+import PlaylistCategoryRow from "./components/Layout/MusicDisplays/Playlist/PlaylistCategoryRow";
 import UserPlaylistRow from "./components/Layout/MusicDisplays/Playlist/UserPlaylistRow";
+import { useLazyGetUserPlaylistsQuery } from "@/store/slices/apiSlice";
 
 export default function Home() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const loggedIn = useAppSelector(
+    (state) => state.spotifyApi.userAuthenticated
+  );
+
+  const [
+    triggerGetUserPlaylists,
+    { isLoading, isError, data: userPlaylistData, error },
+  ] = useLazyGetUserPlaylistsQuery();
+
+  const dispatch = useAppDispatch();
 
   const [welcomeString, setWelcomeString] = useState("");
 
   const [topPlaylists, setTopPlaylists] =
     useState<SpotifyApi.PlaylistObjectSimplified[]>();
 
-  const [userPlaylists, setUserPlaylists] =
+  const [featuredPlaylists, setFeaturedPlaylists] =
     useState<SpotifyApi.PlaylistObjectSimplified[]>();
 
-  const fetchUserPlaylists = () => {
+  const fetchTopPlaylists = () => {
     let spotifyApi = new SpotifyWebApi();
     spotifyApi.setAccessToken(Cookies.get("access_token")!);
 
-    // get the user's playlists
-    spotifyApi.getUserPlaylists().then((data) => {
+    // get the top playlists
+    spotifyApi.getCategoryPlaylists("toplists", { limit: 7 }).then((data) => {
       console.log(data);
-      setUserPlaylists(data.items.slice(0, 6));
+      setTopPlaylists(data.playlists.items);
     });
   };
 
-  // const fetchNewPlaylists = () => {
-  //   let spotifyApi = new SpotifyWebApi();
-  //   spotifyApi.setAccessToken(Cookies.get("access_token")!);
+  const fetchFeaturedPlaylists = () => {
+    let spotifyApi = new SpotifyWebApi();
+    spotifyApi.setAccessToken(Cookies.get("access_token")!);
 
-  //   // get the top playlists
-  //   spotifyApi.getCategoryPlaylists("toplists").then((data) => {
-  //     console.log(data);
-  //     setTopPlaylists(data.playlists.items);
-  //   });
-  // };
+    spotifyApi.getFeaturedPlaylists({ limit: 7 }).then((data) => {
+      console.log(data);
+      setFeaturedPlaylists(data.playlists.items);
+    });
+  };
 
   useEffect(() => {
     let date = new Date();
@@ -54,28 +64,57 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    if (loggedIn) {
+      // fetchUserPlaylists();
+      triggerGetUserPlaylists({ limit: 50 });
+      fetchTopPlaylists();
+      fetchFeaturedPlaylists();
+    }
+  }, [loggedIn]);
+
+  useEffect(() => {
     if (Cookies.get("access_token")) {
-      setLoggedIn(true);
-      // if logged in, use the Web API to fetch some playlists to display
-      // fetchNewPlaylists();
-      fetchUserPlaylists();
+      dispatch(
+        setTokens({
+          accessToken: Cookies.get("access_token")!,
+          refreshToken: Cookies.get("refresh_token")!,
+        })
+      );
     } else {
-      setLoggedIn(false);
+      // setLoggedIn(false);
+      // do nothing for now, deal with this later
     }
   }, [Cookies.get("access_token")]);
 
   return (
-    <div className="text-white bg-zinc-900 w-full h-full my-2 rounded">
+    <div className="text-white bg-zinc-900 w-full h-full mt-2 rounded">
       {loggedIn ? (
-        <div className="bg-gradient-to-b from-green-800 from-10% to-zinc-900">
+        <div className="">
           <div className="text-3xl font-bold ml-2 pt-5">{welcomeString}</div>
           <div>
-            {userPlaylists != undefined && (
+            {userPlaylistData != undefined && (
               <UserPlaylistRow
                 rowName="Good evening"
-                playlists={userPlaylists}
+                playlists={userPlaylistData.items.slice(0, 6)}
               />
-              // <PlaylistRow rowName="Top Playlists" playlists={topPlaylists} />
+            )}
+            {topPlaylists != undefined && (
+              <div className="mt-4 mx-3">
+                <PlaylistCategoryRow
+                  playlists={topPlaylists}
+                  rowName="Top Playlists"
+                  rowCategory="toplists"
+                />
+              </div>
+            )}
+            {featuredPlaylists != undefined && (
+              <div className="mt-4 mx-3">
+                <PlaylistCategoryRow
+                  playlists={featuredPlaylists}
+                  rowName="Featured Playlists"
+                  rowCategory="featured"
+                />
+              </div>
             )}
           </div>
         </div>
