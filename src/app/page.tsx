@@ -1,37 +1,33 @@
 "use client";
 
+import { useAppDispatch, useAppSelector } from "@/lib/hooks/hooks";
+import { setTokens } from "@/store/slices/spotifyApiSlice";
 import Cookies from "js-cookie";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
-import PlaylistRow from "./components/Layout/MusicDisplays/Playlist/PlaylistCategoryRow";
-import UserPlaylistRow from "./components/Layout/MusicDisplays/Playlist/UserPlaylistRow";
 import PlaylistCategoryRow from "./components/Layout/MusicDisplays/Playlist/PlaylistCategoryRow";
+import UserPlaylistRow from "./components/Layout/MusicDisplays/Playlist/UserPlaylistRow";
+import { useLazyGetUserPlaylistsQuery } from "@/store/slices/apiSlice";
 
 export default function Home() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const loggedIn = useAppSelector(
+    (state) => state.spotifyApi.userAuthenticated
+  );
+
+  const [
+    triggerGetUserPlaylists,
+    { isLoading, isError, data: userPlaylistData, error },
+  ] = useLazyGetUserPlaylistsQuery();
+
+  const dispatch = useAppDispatch();
 
   const [welcomeString, setWelcomeString] = useState("");
 
   const [topPlaylists, setTopPlaylists] =
     useState<SpotifyApi.PlaylistObjectSimplified[]>();
 
-  const [userPlaylists, setUserPlaylists] =
-    useState<SpotifyApi.PlaylistObjectSimplified[]>();
-
   const [featuredPlaylists, setFeaturedPlaylists] =
     useState<SpotifyApi.PlaylistObjectSimplified[]>();
-
-  const fetchUserPlaylists = () => {
-    let spotifyApi = new SpotifyWebApi();
-    spotifyApi.setAccessToken(Cookies.get("access_token")!);
-
-    // get the user's playlists
-    spotifyApi.getUserPlaylists().then((data) => {
-      console.log(data);
-      setUserPlaylists(data.items.slice(0, 6));
-    });
-  };
 
   const fetchTopPlaylists = () => {
     let spotifyApi = new SpotifyWebApi();
@@ -68,14 +64,25 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (Cookies.get("access_token")) {
-      setLoggedIn(true);
-      // if logged in, use the Web API to fetch some playlists to display
-      fetchUserPlaylists();
+    if (loggedIn) {
+      // fetchUserPlaylists();
+      triggerGetUserPlaylists({ limit: 50 });
       fetchTopPlaylists();
       fetchFeaturedPlaylists();
+    }
+  }, [loggedIn]);
+
+  useEffect(() => {
+    if (Cookies.get("access_token")) {
+      dispatch(
+        setTokens({
+          accessToken: Cookies.get("access_token")!,
+          refreshToken: Cookies.get("refresh_token")!,
+        })
+      );
     } else {
-      setLoggedIn(false);
+      // setLoggedIn(false);
+      // do nothing for now, deal with this later
     }
   }, [Cookies.get("access_token")]);
 
@@ -85,10 +92,10 @@ export default function Home() {
         <div className="">
           <div className="text-3xl font-bold ml-2 pt-5">{welcomeString}</div>
           <div>
-            {userPlaylists != undefined && (
+            {userPlaylistData != undefined && (
               <UserPlaylistRow
                 rowName="Good evening"
-                playlists={userPlaylists}
+                playlists={userPlaylistData.items.slice(0, 6)}
               />
             )}
             {topPlaylists != undefined && (
