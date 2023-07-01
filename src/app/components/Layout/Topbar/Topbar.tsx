@@ -1,11 +1,31 @@
 "use client";
 
-import { useState } from "react";
-import BrowsingControls from "./BrowsingControls";
+import { useAppSelector } from "@/lib/hooks/hooks";
 import Button from "../../general/Button";
+import BrowsingControls from "./BrowsingControls";
+import { useGetMeQuery, useLazyGetMeQuery } from "@/store/slices/apiSlice";
+import { useEffect } from "react";
 
-export default function Topbar() {
-  const [loggedIn, setLoggedIn] = useState(false);
+type Props = {
+  refreshingToken: boolean;
+};
+
+export default function Topbar({ refreshingToken }: Props) {
+  const loggedIn = useAppSelector(
+    (state) => state.spotifyApi.userAuthenticated
+  );
+
+  const [trigger, { isLoading, isError, data, error }] = useLazyGetMeQuery();
+
+  useEffect(() => {
+    if (loggedIn) {
+      trigger();
+    }
+  }, [loggedIn]);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   const handleLogin = async () => {
     console.log("Logging in");
@@ -22,11 +42,13 @@ export default function Topbar() {
 
   return (
     <div
-      className={`sticky top-0 left-0 right-0 text-white pt-4 flex flex-row justify-between items-center`}
+      className={`sticky top-0 left-0 right-0 text-white bg-black pt-4 flex flex-row justify-between items-center`}
     >
       <BrowsingControls />
       {loggedIn ? (
-        <div>User is logged in</div>
+        <div>Welcome, {data?.display_name}</div>
+      ) : refreshingToken ? (
+        <div>Getting your data...</div>
       ) : (
         <div>
           <Button

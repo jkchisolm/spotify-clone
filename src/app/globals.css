@@ -29,10 +29,22 @@ body {
 .main-layout {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
-  grid-template-rows: 10fr 0.75fr;
+  grid-template-rows: minmax(0, 10fr) 0.75fr;
   grid-template-areas:
     "navbar mainpage queue"
     "nowplaying nowplaying nowplaying";
   grid-column-gap: 5px;
   grid-row-gap: 5px;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
 }
