@@ -7,19 +7,23 @@ import { useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
 import PlaylistCategoryRow from "./components/Layout/MusicDisplays/Playlist/PlaylistCategoryRow";
 import UserPlaylistRow from "./components/Layout/MusicDisplays/Playlist/UserPlaylistRow";
-import { useLazyGetUserPlaylistsQuery } from "@/store/slices/apiSlice";
+import {
+  useGetMeQuery,
+  useLazyGetUserPlaylistsQuery,
+  useLazyRefreshAccessTokenQuery,
+} from "@/store/slices/apiSlice";
 
 export default function Home() {
   const loggedIn = useAppSelector(
     (state) => state.spotifyApi.userAuthenticated
   );
 
+  const dispatch = useAppDispatch();
+
   const [
     triggerGetUserPlaylists,
     { isLoading, isError, data: userPlaylistData, error },
   ] = useLazyGetUserPlaylistsQuery();
-
-  const dispatch = useAppDispatch();
 
   const [welcomeString, setWelcomeString] = useState("");
 
@@ -80,9 +84,14 @@ export default function Home() {
           refreshToken: Cookies.get("refresh_token")!,
         })
       );
-    } else {
-      // setLoggedIn(false);
-      // do nothing for now, deal with this later
+    } // else, if the access token does not exist, or was created over an hour ago, we must refresh it
+    else if (
+      Cookies.get("access_token") == undefined ||
+      Cookies.get("creation_time") == undefined ||
+      (Date.now() - parseInt(Cookies.get("creation_time")!)) / 1000 > 3600
+    ) {
+      // refresh access token w/ call to API
+      console.log("refreshing access token");
     }
   }, [Cookies.get("access_token")]);
 

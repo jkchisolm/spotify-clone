@@ -44,6 +44,7 @@ export async function GET(request: NextRequest) {
     const cookieStore = cookies();
     cookieStore.set("access_token", access_token);
     cookieStore.set("refresh_token", refresh_token);
+    cookieStore.set("creation_time", Date.now().toString());
 
     return NextResponse.redirect(
       process.env.PROD == "true"

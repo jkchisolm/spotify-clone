@@ -43,6 +43,7 @@ export default function Player() {
 
       player.addListener("ready", ({ device_id }) => {
         console.log("Ready with Device ID", device_id);
+        transferPlaybackHere(device_id);
       });
 
       player.addListener("not_ready", ({ device_id }) => {
@@ -50,13 +51,49 @@ export default function Player() {
       });
 
       player.connect();
+
+      // make the current device this one
+      async function transferPlaybackHere(deviceId: string) {
+        // first get available devices
+        await fetch("https://api.spotify.com/v1/me/player/devices", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+          });
+
+        // get the current playback info
+        await fetch("https://api.spotify.com/v1/me/player", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+          });
+
+        // await fetch("https://api.spotify.com/v1/me/player", {
+        //   method: "PUT",
+        //   headers: {
+        //     Authorization: `Bearer ${accessToken}`,
+        //   },
+        //   body: JSON.stringify({
+        //     device_ids: [deviceId],
+        //     // play: true,
+        //   }),
+        // });
+      }
     };
   }, [accessToken]);
 
   return (
-    <div>
+    <div className="col-span-3">
       {loggedIn ? (
-        <div className="text-white">Player</div>
+        <div className="text-white bg-zinc-900 w-full h-full">Player</div>
       ) : (
         <div>Not logged in</div>
       )}

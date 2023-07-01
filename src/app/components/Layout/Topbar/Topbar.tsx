@@ -6,7 +6,11 @@ import BrowsingControls from "./BrowsingControls";
 import { useGetMeQuery, useLazyGetMeQuery } from "@/store/slices/apiSlice";
 import { useEffect } from "react";
 
-export default function Topbar() {
+type Props = {
+  refreshingToken: boolean;
+};
+
+export default function Topbar({ refreshingToken }: Props) {
   const loggedIn = useAppSelector(
     (state) => state.spotifyApi.userAuthenticated
   );
@@ -43,6 +47,8 @@ export default function Topbar() {
       <BrowsingControls />
       {loggedIn ? (
         <div>Welcome, {data?.display_name}</div>
+      ) : refreshingToken ? (
+        <div>Getting your data...</div>
       ) : (
         <div>
           <Button
