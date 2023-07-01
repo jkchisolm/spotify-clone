@@ -47,7 +47,7 @@ export default function Topbar({ refreshingToken }: Props) {
       <BrowsingControls />
       {loggedIn ? (
         <div>Welcome, {data?.display_name}</div>
-      ) : refreshingToken ? (
+      ) : loggedIn && refreshingToken ? (
         <div>Getting your data...</div>
       ) : (
         <div>
