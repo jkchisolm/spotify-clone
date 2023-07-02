@@ -1,10 +1,11 @@
 "use client";
 
 import { useAppSelector } from "@/lib/hooks/hooks";
+import { useLazyGetMeQuery } from "@/store/slices/apiSlice";
+import { useEffect } from "react";
 import Button from "../../general/Button";
 import BrowsingControls from "./BrowsingControls";
-import { useGetMeQuery, useLazyGetMeQuery } from "@/store/slices/apiSlice";
-import { useEffect } from "react";
+import Searchbar from "./Searchbar";
 
 type Props = {
   refreshingToken: boolean;
@@ -42,9 +43,10 @@ export default function Topbar({ refreshingToken }: Props) {
 
   return (
     <div
-      className={`sticky top-0 left-0 right-0 text-white bg-black pt-4 flex flex-row justify-between items-center`}
+      className={`absolute  top-0 left-0 right-0 text-white bg-transparent pt-4 flex flex-row justify-between items-center`}
     >
       <BrowsingControls />
+      <Searchbar />
       {loggedIn ? (
         <div>Welcome, {data?.display_name}</div>
       ) : loggedIn && refreshingToken ? (

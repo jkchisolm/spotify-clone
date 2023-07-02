@@ -1,20 +1,15 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import Navbar from "./components/Layout/Navbar/Navbar";
 import "./globals.css";
 
+import { ApiContext, ApiContextProvider } from "@/lib/contexts/apiContext";
 import { Montserrat } from "next/font/google";
 import { Provider } from "react-redux";
 import { store } from "../store/store";
-import UnauthorizedNP from "./components/Layout/NowPlaying/UnathorizedNP";
-import Topbar from "./components/Layout/Topbar/Topbar";
 import Player from "./components/Layout/NowPlaying/Player";
-import { useAppSelector } from "@/lib/hooks/hooks";
-import Cookies from "js-cookie";
-import { useGetMeQuery } from "@/store/slices/apiSlice";
-import { refreshAccessToken } from "@/lib/helpers/RefreshAccessToken";
-import { ApiContext, ApiContextProvider } from "@/lib/contexts/apiContext";
+import Topbar from "./components/Layout/Topbar/Topbar";
 import AuthWrapper from "./components/auth/AuthWrapper";
 
 const montserrat = Montserrat({
@@ -27,39 +22,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [currentlyPlaying, setCurrentlyPlaying] = useState(false);
   const [queueOpen, setQueueOpen] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [refreshingToken, setRefreshingToken] = useState(false);
 
   const apiContext = useContext(ApiContext);
-
-  useEffect(() => {
-    async function refreshToken() {
-      const response = await fetch("/api/refreshToken", { method: "POST" });
-
-      if (response == null) {
-        return false;
-      }
-      setRefreshingToken(false);
-      return true;
-    }
-
-    // if we have an access token, and the creation time was less than an hour ago, then store that in the context
-
-    //   if (
-    //     // no access token, or no creation time, or creation time was more than an hour ago
-    //     !Cookies.get("access_token") ||
-    //     !Cookies.get("creation_time") ||
-    //     (Date.now() - parseInt(Cookies.get("creation_time")!)) / 1000 > 3600
-    //   ) {
-    //     // refresh access token
-    //     setRefreshingToken(true);
-    //     apiContext.setRefreshing(true);
-    //     refreshToken();
-    //     console.log("Access token refreshed");
-    //   }
-  });
 
   return (
     <Provider store={store}>
@@ -70,7 +35,7 @@ export default function RootLayout({
             <div
               className={`${
                 queueOpen ? "col-span-1" : "col-span-2"
-              } flex flex-col overflow-auto`}
+              } flex flex-col overflow-auto relative`}
             >
               <Topbar refreshingToken={apiContext.refreshing} />
               {!apiContext.refreshing ? (

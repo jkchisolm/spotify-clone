@@ -65,16 +65,16 @@ export default function Player() {
             console.log(data);
           });
 
-        // get the current playback info
-        await fetch("https://api.spotify.com/v1/me/player", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data);
-          });
+        // // get the current playback info
+        // await fetch("https://api.spotify.com/v1/me/player", {
+        //   headers: {
+        //     Authorization: `Bearer ${accessToken}`,
+        //   },
+        // })
+        //   .then((res) => res.json())
+        //   .then((data) => {
+        //     console.log(data);
+        //   });
 
         // await fetch("https://api.spotify.com/v1/me/player", {
         //   method: "PUT",

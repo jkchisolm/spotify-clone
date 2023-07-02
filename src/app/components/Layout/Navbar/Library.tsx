@@ -1,17 +1,16 @@
 "use client";
 
-import { useGetUserPlaylistsQuery } from "@/store/slices/apiSlice";
+import {
+  useGetUserLibraryQuery,
+  useGetUserPlaylistsQuery,
+} from "@/store/slices/apiSlice";
 import { BiLibrary, BiPlus } from "react-icons/bi";
 import { MoonLoader } from "react-spinners";
 import Button from "../../general/Button";
 import NavbarPlaylistRow from "../MusicDisplays/Playlist/NavbarPlaylistRow";
 
 export default function Library() {
-  const {
-    data: userPlaylists,
-    isFetching,
-    isError,
-  } = useGetUserPlaylistsQuery({ limit: 50 });
+  const { data: userPlaylists, isFetching, isError } = useGetUserLibraryQuery();
 
   return (
     <div className="bg-zinc-900 rounded flex flex-col mt-2 text-white px-2 pb-2 h-full overflow-scroll relative">
