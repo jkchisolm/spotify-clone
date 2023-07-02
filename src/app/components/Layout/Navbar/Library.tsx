@@ -3,14 +3,35 @@
 import {
   useGetUserLibraryQuery,
   useGetUserPlaylistsQuery,
+  useLazyGetUserLibraryQuery,
 } from "@/store/slices/apiSlice";
 import { BiLibrary, BiPlus } from "react-icons/bi";
 import { MoonLoader } from "react-spinners";
 import Button from "../../general/Button";
 import NavbarPlaylistRow from "../MusicDisplays/Playlist/NavbarPlaylistRow";
+import { useContext, useEffect, useState } from "react";
+import { ApiContext } from "@/lib/contexts/apiContext";
 
 export default function Library() {
-  const { data: userPlaylists, isFetching, isError } = useGetUserLibraryQuery();
+  const {
+    data: userPlaylists,
+    isFetching,
+    isError,
+    refetch,
+  } = useGetUserLibraryQuery();
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  const apiContext = useContext(ApiContext);
+
+  useEffect(() => {
+    if (apiContext.refreshing) {
+      setRefreshing(true);
+    } else if (apiContext.refreshing == false && refreshing) {
+      setRefreshing(false);
+      refetch();
+    }
+  }, [apiContext.refreshing]);
 
   return (
     <div className="bg-zinc-900 rounded flex flex-col mt-2 text-white px-2 pb-2 h-full overflow-scroll relative">
