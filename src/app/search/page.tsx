@@ -2,13 +2,30 @@
 
 import { useGetAvailableCategoriesQuery } from "@/store/slices/apiSlice";
 import CategoryCard from "../components/search/CategoryCard";
+import { useContext, useEffect, useState } from "react";
+import { ApiContext } from "@/lib/contexts/apiContext";
 
 export default function SearchPage() {
+  const apiContext = useContext(ApiContext);
+
   const {
     data: availableCategories,
     isLoading,
     isError,
+    refetch,
   } = useGetAvailableCategoriesQuery();
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  useEffect(() => {
+    if (apiContext.refreshing) {
+      setRefreshing(true);
+    } else if (apiContext.refreshing == false && refreshing) {
+      setRefreshing(false);
+      console.log("refetching user api");
+      refetch();
+    }
+  }, [apiContext.refreshing]);
 
   return (
     <div className="bg-zinc-900 text-white pt-16 px-4 h-full">

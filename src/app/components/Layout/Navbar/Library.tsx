@@ -29,6 +29,7 @@ export default function Library() {
       setRefreshing(true);
     } else if (apiContext.refreshing == false && refreshing) {
       setRefreshing(false);
+      console.log("refetching user api");
       refetch();
     }
   }, [apiContext.refreshing]);

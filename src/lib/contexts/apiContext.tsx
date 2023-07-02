@@ -20,6 +20,7 @@ export const ApiContextProvider = (props: Props) => {
   const [refresh_token, setRefreshToken] = useState("");
   const [creation_time, setCreationTime] = useState("");
   const [refreshing, setRefreshing] = useState(false);
+  const [newCookieSet, setNewCookieSet] = useState(false);
 
   return (
     <ApiContext.Provider
