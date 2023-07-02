@@ -1,17 +1,13 @@
 "use client";
 
+import { ApiContext } from "@/lib/contexts/apiContext";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks/hooks";
-import { setTokens } from "@/store/slices/spotifyApiSlice";
+import { useLazyGetUserPlaylistsQuery } from "@/store/slices/apiSlice";
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
 import PlaylistCategoryRow from "./components/Layout/MusicDisplays/Playlist/PlaylistCategoryRow";
 import UserPlaylistRow from "./components/Layout/MusicDisplays/Playlist/UserPlaylistRow";
-import {
-  useGetMeQuery,
-  useLazyGetUserPlaylistsQuery,
-  useLazyRefreshAccessTokenQuery,
-} from "@/store/slices/apiSlice";
 
 export default function Home() {
   const loggedIn = useAppSelector(
@@ -19,6 +15,8 @@ export default function Home() {
   );
 
   const dispatch = useAppDispatch();
+
+  const apiContext = useContext(ApiContext);
 
   const [
     triggerGetUserPlaylists,
@@ -68,36 +66,17 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (loggedIn) {
+    if (apiContext.refresh_token != "" && apiContext.refreshing != true) {
       // fetchUserPlaylists();
       triggerGetUserPlaylists({ limit: 50 });
       fetchTopPlaylists();
       fetchFeaturedPlaylists();
     }
-  }, [loggedIn]);
-
-  useEffect(() => {
-    if (Cookies.get("access_token")) {
-      dispatch(
-        setTokens({
-          accessToken: Cookies.get("access_token")!,
-          refreshToken: Cookies.get("refresh_token")!,
-        })
-      );
-    } // else, if the access token does not exist, or was created over an hour ago, we must refresh it
-    else if (
-      Cookies.get("access_token") == undefined ||
-      Cookies.get("creation_time") == undefined ||
-      (Date.now() - parseInt(Cookies.get("creation_time")!)) / 1000 > 3600
-    ) {
-      // refresh access token w/ call to API
-      console.log("refreshing access token");
-    }
-  }, [Cookies.get("access_token")]);
+  }, [apiContext.refresh_token]);
 
   return (
     <div className="text-white bg-zinc-900 w-full h-full mt-2 rounded">
-      {loggedIn ? (
+      {apiContext.refresh_token != "" ? (
         <div className="">
           <div className="text-3xl font-bold ml-2 pt-5">{welcomeString}</div>
           <div>
