@@ -27,6 +27,12 @@ export const apiSlice = createApi({
     getUserLibrary: builder.query<getUserPlaylistsResponse, void>({
       query: () => "me/playlists?limit=50",
     }),
+    getAvailableCategories: builder.query<
+      SpotifyApi.MultipleCategoriesResponse,
+      void
+    >({
+      query: () => "browse/categories?limit=50",
+    }),
     refreshAccessToken: builder.query<{ access_token: string }, void>({
       query: () => ({
         url: "https://accounts.spotify.com/api/token",
@@ -54,4 +60,5 @@ export const {
   useLazyRefreshAccessTokenQuery,
   useGetUserLibraryQuery,
   useLazyGetUserLibraryQuery,
+  useGetAvailableCategoriesQuery,
 } = apiSlice;
