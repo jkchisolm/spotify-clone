@@ -15,6 +15,8 @@ type Props = {
   rowName: string;
   rowCategory?: string;
   useShowAllButton: boolean;
+  rounded?: boolean;
+  clampOne?: boolean;
 };
 
 export default function CategoryRow({
@@ -23,6 +25,8 @@ export default function CategoryRow({
   rowName,
   rowCategory,
   useShowAllButton,
+  rounded,
+  clampOne,
 }: Props) {
   return (
     <div className="flex flex-col">
@@ -44,9 +48,10 @@ export default function CategoryRow({
             header={item.header}
             description={item.description}
             imageUrl={item.imageUrl}
-            imageType="square"
+            imageType={rounded ? "circle" : "square"}
             url={`/playlist/${item.id}`}
             id={item.id}
+            clampOne={clampOne}
           />
         ))}
       </div>

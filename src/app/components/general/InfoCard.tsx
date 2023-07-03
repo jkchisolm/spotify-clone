@@ -7,6 +7,7 @@ type Props = {
   imageType: "circle" | "square";
   url: string;
   id: string;
+  clampOne?: boolean;
 };
 
 export default function InfoCard(props: Props) {
@@ -25,7 +26,13 @@ export default function InfoCard(props: Props) {
           alt={props.header}
         />
       </div>
-      <div className="text-white font-bold mt-2">{props.header}</div>
+      <div
+        className={`text-white font-bold mt-2 ${
+          props.clampOne ? "line-clamp-1" : "line-clamp-2"
+        }`}
+      >
+        {props.header}
+      </div>
       <div className="text-zinc-400 text-xs line-clamp-2">
         {props.description}
       </div>
