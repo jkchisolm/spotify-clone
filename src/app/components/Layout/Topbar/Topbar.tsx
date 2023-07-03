@@ -7,6 +7,7 @@ import Button from "../../general/Button";
 import BrowsingControls from "./BrowsingControls";
 import Searchbar from "./Searchbar";
 import { StyleContext } from "@/lib/contexts/styleContext";
+import SearchCategories from "./SearchCategories";
 
 type Props = {
   refreshingToken: boolean;
@@ -46,35 +47,40 @@ export default function Topbar({ refreshingToken }: Props) {
 
   return (
     <div
-      className={`sticky top-0 left-0 right-0 text-white z-10 py-4 flex flex-row justify-between items-center`}
+      className="sticky top-0 left-0 right-0 flex flex-col justify-start items-stretch z-10"
       style={{
         backgroundColor: styleContext.topbar_bg
           ? styleContext.topbar_bg
           : "#18181b",
       }}
     >
-      <div className="flex flex-row justify-start items-center grow">
-        <BrowsingControls />
-        <Searchbar />
-      </div>
-
-      {loggedIn ? (
-        <div className="grow text-right">Welcome, {data?.display_name}</div>
-      ) : loggedIn && refreshingToken ? (
-        <div>Getting your data...</div>
-      ) : (
-        <div className="grow">
-          <Button
-            color="bg-green-500"
-            hoverColor="bg-green-600"
-            textColor="text-white"
-            style="pill"
-            onClick={handleLogin}
-          >
-            Log In With Spotify
-          </Button>
+      <div
+        className={` text-white  py-4 flex flex-row justify-between items-center`}
+      >
+        <div className="flex flex-row justify-start items-center grow">
+          <BrowsingControls />
+          <Searchbar />
         </div>
-      )}
+
+        {loggedIn ? (
+          <div className="grow text-right">Welcome, {data?.display_name}</div>
+        ) : loggedIn && refreshingToken ? (
+          <div>Getting your data...</div>
+        ) : (
+          <div className="grow">
+            <Button
+              color="bg-green-500"
+              hoverColor="bg-green-600"
+              textColor="text-white"
+              style="pill"
+              onClick={handleLogin}
+            >
+              Log In With Spotify
+            </Button>
+          </div>
+        )}
+      </div>
+      <SearchCategories />
     </div>
   );
 }
