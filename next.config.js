@@ -10,6 +10,10 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: '**.scdn.co',
             },
+            {
+                protocol: 'https',
+                hostname: 'via.placeholder.com',
+            }
         ],
         // domains: ['i.scdn.co', 'charts-images.scdn.co', 'mosaic.scdn.co', '**.scdn.co', 'seed-mix-image.spotifycdn.com', '**.spotifycdn.com']
     },

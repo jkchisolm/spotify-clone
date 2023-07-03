@@ -23,7 +23,7 @@ export default function PlaylistCategoryRow({
           Show all
         </Link>
       </div>
-      <div className="grid grid-cols-7 mt-3">
+      <div className="grid grid-cols-7 mt-3 gap-3">
         {playlists.map((playlist) => (
           <PlaylistCard playlist={playlist} key={playlist.id} />
         ))}
