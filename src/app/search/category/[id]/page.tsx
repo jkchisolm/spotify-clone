@@ -1,11 +1,10 @@
 "use client";
 
-import PlaylistCard from "@/app/components/Layout/MusicDisplays/Playlist/PlaylistCard";
+import InfoCard from "@/app/components/general/InfoCard";
 import {
   useGetCategoryPlaylistsQuery,
   useGetSingleCategoryQuery,
 } from "@/store/slices/apiSlice";
-import { usePathname } from "next/navigation";
 
 type Props = {
   categoryId: string;
@@ -26,9 +25,9 @@ export default function SearchCategoryPage({
   console.log(data);
 
   return (
-    <div className="h-full">
+    <div className="min-h-full">
       {data && categoryInfo && (
-        <div className="bg-zinc-900 text-white pt-12 px-3 flex flex-col">
+        <div className="bg-zinc-900 text-white pt-8 px-3 min-h-full flex flex-col pb-4">
           <div className="text-7xl text-white font-bold pt-16 mb-20">
             {categoryInfo.name}
           </div>
@@ -36,7 +35,17 @@ export default function SearchCategoryPage({
             {data.playlists.items
               .filter((n) => n)
               .map((playlist) => {
-                return <PlaylistCard playlist={playlist} key={playlist.id} />;
+                return (
+                  <InfoCard
+                    key={playlist.id}
+                    header={playlist.name}
+                    description={playlist.description!}
+                    imageUrl={playlist.images[0].url}
+                    imageType="square"
+                    url={`/playlist/${playlist.id}`}
+                    id={playlist.id}
+                  />
+                );
               })}
           </div>
         </div>

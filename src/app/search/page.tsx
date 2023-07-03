@@ -28,7 +28,7 @@ export default function SearchPage() {
   }, [apiContext.refreshing]);
 
   return (
-    <div className="bg-zinc-900 text-white pt-16 px-4 h-full">
+    <div className="bg-zinc-900 text-white pt-16 px-4 min-h-fit pb-4">
       {isLoading ? (
         <div>Loading...</div>
       ) : (

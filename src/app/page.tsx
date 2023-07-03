@@ -6,7 +6,7 @@ import { useLazyGetUserPlaylistsQuery } from "@/store/slices/apiSlice";
 import Cookies from "js-cookie";
 import { useContext, useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
-import PlaylistCategoryRow from "./components/Layout/MusicDisplays/Playlist/PlaylistCategoryRow";
+import PlaylistCategoryRow from "./components/Layout/MusicDisplays/Playlist/CategoryRow";
 import UserPlaylistRow from "./components/Layout/MusicDisplays/Playlist/UserPlaylistRow";
 
 export default function Home() {
@@ -75,7 +75,7 @@ export default function Home() {
   }, [apiContext.refresh_token]);
 
   return (
-    <div className="text-white bg-zinc-900 w-full h-full pt-9 rounded">
+    <div className="text-white bg-zinc-900 w-full h-full pb-4 rounded">
       {apiContext.refresh_token != "" ? (
         <div className="">
           <div className="text-3xl font-bold ml-2 pt-5">{welcomeString}</div>
@@ -92,6 +92,7 @@ export default function Home() {
                   playlists={topPlaylists}
                   rowName="Top Playlists"
                   rowCategory="toplists"
+                  useShowAllButton={true}
                 />
               </div>
             )}
@@ -101,6 +102,7 @@ export default function Home() {
                   playlists={featuredPlaylists}
                   rowName="Featured Playlists"
                   rowCategory="featured"
+                  useShowAllButton={true}
                 />
               </div>
             )}

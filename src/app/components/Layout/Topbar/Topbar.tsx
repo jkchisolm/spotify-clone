@@ -2,10 +2,11 @@
 
 import { useAppSelector } from "@/lib/hooks/hooks";
 import { useLazyGetMeQuery } from "@/store/slices/apiSlice";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import Button from "../../general/Button";
 import BrowsingControls from "./BrowsingControls";
 import Searchbar from "./Searchbar";
+import { StyleContext } from "@/lib/contexts/styleContext";
 
 type Props = {
   refreshingToken: boolean;
@@ -17,6 +18,8 @@ export default function Topbar({ refreshingToken }: Props) {
   );
 
   const [trigger, { isLoading, isError, data, error }] = useLazyGetMeQuery();
+
+  const styleContext = useContext(StyleContext);
 
   useEffect(() => {
     if (loggedIn) {
@@ -43,16 +46,24 @@ export default function Topbar({ refreshingToken }: Props) {
 
   return (
     <div
-      className={`absolute  top-0 left-0 right-0 text-white bg-transparent pt-4 flex flex-row justify-between items-center`}
+      className={`sticky top-0 left-0 right-0 text-white z-10 py-4 flex flex-row justify-between items-center`}
+      style={{
+        backgroundColor: styleContext.topbar_bg
+          ? styleContext.topbar_bg
+          : "#18181b",
+      }}
     >
-      <BrowsingControls />
-      <Searchbar />
+      <div className="flex flex-row justify-start items-center grow">
+        <BrowsingControls />
+        <Searchbar />
+      </div>
+
       {loggedIn ? (
-        <div>Welcome, {data?.display_name}</div>
+        <div className="grow text-right">Welcome, {data?.display_name}</div>
       ) : loggedIn && refreshingToken ? (
         <div>Getting your data...</div>
       ) : (
-        <div>
+        <div className="grow">
           <Button
             color="bg-green-500"
             hoverColor="bg-green-600"
