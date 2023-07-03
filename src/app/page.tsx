@@ -6,7 +6,7 @@ import { useLazyGetUserPlaylistsQuery } from "@/store/slices/apiSlice";
 import Cookies from "js-cookie";
 import { useContext, useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
-import PlaylistCategoryRow from "./components/Layout/MusicDisplays/Playlist/CategoryRow";
+import CategoryRow from "./components/Layout/MusicDisplays/Playlist/CategoryRow";
 import UserPlaylistRow from "./components/Layout/MusicDisplays/Playlist/UserPlaylistRow";
 
 export default function Home() {
@@ -88,8 +88,17 @@ export default function Home() {
             )}
             {topPlaylists != undefined && (
               <div className="mt-4 mx-3">
-                <PlaylistCategoryRow
-                  playlists={topPlaylists}
+                <CategoryRow
+                  // playlists={topPlaylists}
+                  items={topPlaylists.map((playlist) => {
+                    return {
+                      id: playlist.id,
+                      header: playlist.name,
+                      description: playlist.description!,
+                      imageUrl: playlist.images[0].url,
+                      url: playlist.uri,
+                    };
+                  })}
                   rowName="Top Playlists"
                   rowCategory="toplists"
                   useShowAllButton={true}
@@ -98,8 +107,17 @@ export default function Home() {
             )}
             {featuredPlaylists != undefined && (
               <div className="mt-4 mx-3">
-                <PlaylistCategoryRow
-                  playlists={featuredPlaylists}
+                <CategoryRow
+                  // playlists={featuredPlaylists}
+                  items={featuredPlaylists.map((playlist) => {
+                    return {
+                      id: playlist.id,
+                      header: playlist.name,
+                      description: playlist.description!,
+                      imageUrl: playlist.images[0].url,
+                      url: playlist.uri,
+                    };
+                  })}
                   rowName="Featured Playlists"
                   rowCategory="featured"
                   useShowAllButton={true}
