@@ -6,7 +6,7 @@ import { useLazyGetUserPlaylistsQuery } from "@/store/slices/apiSlice";
 import Cookies from "js-cookie";
 import { useContext, useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
-import CategoryRow from "./components/Layout/MusicDisplays/Playlist/CategoryRow";
+import CategoryRow from "./components/Layout/MusicDisplays/CategoryRow";
 import UserPlaylistRow from "./components/Layout/MusicDisplays/Playlist/UserPlaylistRow";
 
 export default function Home() {

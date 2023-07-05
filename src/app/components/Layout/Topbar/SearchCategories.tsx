@@ -28,7 +28,7 @@ export default function SearchCategories() {
         <div className="flex flex-row justify-start items-center">
           {Object.keys(categories).map((category) => {
             const allCategory =
-              params.category == undefined || params.category == "";
+              pathname.endsWith(params.term) || pathname.endsWith("/all");
             return (
               <div
                 key={category}
@@ -39,13 +39,13 @@ export default function SearchCategories() {
                   color:
                     allCategory && category == "All"
                       ? "#000000"
-                      : !allCategory && params.category == categories[category]
+                      : !allCategory && pathname.endsWith(categories[category])
                       ? "#000000"
                       : "#ffffff",
                   backgroundColor:
                     allCategory && category == "All"
                       ? "#ffffff"
-                      : !allCategory && params.category == categories[category]
+                      : !allCategory && pathname.endsWith(categories[category])
                       ? "#ffffff"
                       : "#27272a",
                 }}

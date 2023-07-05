@@ -52,6 +52,13 @@ export const apiSlice = createApi({
       query: (query) =>
         `search?q=${query.query}&type=track,artist,album,playlist,show,episode,audiobook&limit=7`,
     }),
+    getSpecificSearchResults: builder.query<
+      SpotifyApi.SearchResponse,
+      { category: string; query: string }
+    >({
+      query: (params) =>
+        `search?q=${params.query}&type=${params.category}&limit=50`,
+    }),
     refreshAccessToken: builder.query<{ access_token: string }, void>({
       query: () => ({
         url: "https://accounts.spotify.com/api/token",
@@ -84,4 +91,5 @@ export const {
   useLazyGetCategoryPlaylistsQuery,
   useGetSingleCategoryQuery,
   useGetGenericSearchResultsQuery,
+  useGetSpecificSearchResultsQuery,
 } = apiSlice;

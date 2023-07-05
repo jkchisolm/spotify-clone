@@ -1,6 +1,6 @@
 "use client";
 
-import CategoryRow from "@/app/components/Layout/MusicDisplays/Playlist/CategoryRow";
+import CategoryRow from "@/app/components/Layout/MusicDisplays/CategoryRow";
 import { useGetGenericSearchResultsQuery } from "@/store/slices/apiSlice";
 
 export default function SearchResultsPage({
