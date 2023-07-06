@@ -3,6 +3,7 @@
 import InfoCard from "@/app/components/general/InfoCard";
 import { useGetSpecificSearchResultsQuery } from "@/store/slices/apiSlice";
 import { useParams } from "next/navigation";
+import { MoonLoader } from "react-spinners";
 
 export default function SearchArtists() {
   const params = useParams();
@@ -11,6 +12,15 @@ export default function SearchArtists() {
     query: params.term,
     category: "artist",
   });
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full">
+        <MoonLoader color={"#1DB954"} />
+        <p className="text-gray-400">Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-full">

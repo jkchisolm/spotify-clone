@@ -89,18 +89,37 @@ export default function Home() {
             {topPlaylists != undefined && (
               <div className="mt-4 mx-3">
                 <CategoryRow
-                  playlists={topPlaylists}
+                  items={topPlaylists.map((playlist) => {
+                    return {
+                      id: playlist.id,
+                      imageUrl: playlist.images[0].url,
+                      header: playlist.name,
+                      description: playlist.description || "",
+                      url: `/playlist/${playlist.id}`,
+                    };
+                  })}
                   rowName="Top Playlists"
                   rowCategory="toplists"
+                  useShowAllButton={true}
                 />
               </div>
             )}
             {featuredPlaylists != undefined && (
               <div className="mt-4 mx-3">
                 <CategoryRow
-                  playlists={featuredPlaylists}
+                  // playlists={featuredPlaylists}
+                  items={featuredPlaylists.map((playlist) => {
+                    return {
+                      id: playlist.id,
+                      imageUrl: playlist.images[0].url,
+                      header: playlist.name,
+                      description: playlist.description || "",
+                      url: `/playlist/${playlist.id}`,
+                    };
+                  })}
                   rowName="Featured Playlists"
                   rowCategory="featured"
+                  useShowAllButton={true}
                 />
               </div>
             )}

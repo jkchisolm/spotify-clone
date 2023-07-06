@@ -70,6 +70,7 @@ export default function SearchResultsPage({
                     id: album.id,
                     header: album.name,
                     description:
+                      // @ts-ignore
                       album.release_date + " • " + album.artists[0].name,
                     imageUrl:
                       album.images.length > 0
@@ -156,7 +157,9 @@ export default function SearchResultsPage({
               items={
                 // filter the playlists to only include the necessary props
                 data!
+                  // @ts-ignore
                   .audiobooks!.items.filter((n) => n)
+                  // @ts-ignore
                   .map((audiobook) => {
                     return {
                       id: audiobook.id,

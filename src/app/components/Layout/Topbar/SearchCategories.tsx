@@ -39,13 +39,15 @@ export default function SearchCategories() {
                   color:
                     allCategory && category == "All"
                       ? "#000000"
-                      : !allCategory && pathname.endsWith(categories[category])
+                      : // @ts-ignore
+                      !allCategory && pathname.endsWith(categories[category])
                       ? "#000000"
                       : "#ffffff",
                   backgroundColor:
                     allCategory && category == "All"
                       ? "#ffffff"
-                      : !allCategory && pathname.endsWith(categories[category])
+                      : // @ts-ignore
+                      !allCategory && pathname.endsWith(categories[category])
                       ? "#ffffff"
                       : "#27272a",
                 }}
@@ -54,6 +56,7 @@ export default function SearchCategories() {
                   href={
                     "/search/" +
                     params.term +
+                    // @ts-ignore
                     (category == "All" ? "" : "/" + categories[category])
                   }
                 >
