@@ -10,7 +10,7 @@ const categories = {
   Albums: "albums",
   Playlists: "playlists",
   Songs: "songs",
-  Shows: "shows",
+  "Podcasts & Shows": "shows",
   Episodes: "episodes",
   Audiobooks: "audiobooks",
 };
