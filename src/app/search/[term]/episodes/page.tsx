@@ -1,17 +1,16 @@
 "use client";
 
-import TrackContainer from "@/app/components/Layout/MusicDisplays/Tracks/TrackContainer";
-import InfoCard from "@/app/components/general/InfoCard";
+import EpisodeContainer from "@/app/components/Layout/MusicDisplays/Episodes/EpisodeContainer";
 import { useGetSpecificSearchResultsQuery } from "@/store/slices/apiSlice";
 import { useParams } from "next/navigation";
 import { MoonLoader } from "react-spinners";
 
-export default function SearchSongs() {
+export default function SearchEpisodes() {
   const params = useParams();
 
   const { data, isLoading, isError } = useGetSpecificSearchResultsQuery({
     query: params.term,
-    category: "track",
+    category: "episode",
   });
 
   if (isLoading) {
@@ -26,8 +25,10 @@ export default function SearchSongs() {
   return (
     <div className="min-h-full">
       {data && (
-        <div className="bg-zinc-900 pt-8 px-8  min-h-full pb-4">
-          <TrackContainer displayType="results" tracks={data.tracks?.items!} />
+        <div className="bg-zinc-900 pt-8 px-8 min-h-full pb-4">
+          <div className="w-1/2">
+            <EpisodeContainer episodes={data.episodes?.items!} />
+          </div>
         </div>
       )}
     </div>
