@@ -33,6 +33,13 @@ export default function TrackRow(props: Props) {
         <div className="flex flex-col justify-center items-start ml-4">
           {(props.track as SpotifyApi.TrackObjectFull).name}
           <div className="text-zinc-400">
+            {(props.track as SpotifyApi.TrackObjectFull).explicit ? (
+              <span className="bg-zinc-400 text-zinc-900 px-1 text-sm mr-2 rounded">
+                E
+              </span>
+            ) : (
+              ""
+            )}
             {
               // list each artist in a span
               (props.track as SpotifyApi.TrackObjectFull).artists.map(

@@ -15,6 +15,7 @@ type Props = {
   rowName: string;
   rowCategory?: string;
   useShowAllButton: boolean;
+  showAllUrl?: string;
   rounded?: boolean;
   clampOne?: boolean;
 };
@@ -27,6 +28,7 @@ export default function CategoryRow({
   useShowAllButton,
   rounded,
   clampOne,
+  showAllUrl,
 }: Props) {
   return (
     <div className="flex flex-col">
@@ -34,7 +36,7 @@ export default function CategoryRow({
         <h1 className="text-2xl font-bold">{rowName}</h1>
         {useShowAllButton && (
           <Link
-            href={`/playlistCategory/${rowCategory}`}
+            href={showAllUrl ? showAllUrl : `/playlistCategory/${rowCategory}`}
             className="text-sm font-bold text-zinc-400 hover:text-green-600"
           >
             Show all
@@ -49,7 +51,7 @@ export default function CategoryRow({
             description={item.description}
             imageUrl={item.imageUrl}
             imageType={rounded ? "circle" : "square"}
-            url={`/playlist/${item.id}`}
+            url={item.url}
             id={item.id}
             clampOne={clampOne}
           />

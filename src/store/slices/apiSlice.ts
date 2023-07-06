@@ -59,6 +59,27 @@ export const apiSlice = createApi({
       query: (params) =>
         `search?q=${params.query}&type=${params.category}&limit=50`,
     }),
+    getArtistInfo: builder.query<SpotifyApi.ArtistObjectFull, { id: string }>({
+      query: (id) => `artists/${id.id}`,
+    }),
+    getArtistAlbums: builder.query<
+      SpotifyApi.ArtistsAlbumsResponse,
+      { id: string; limit: number }
+    >({
+      query: (id) => `artists/${id.id}/albums?limit=${id.limit}`,
+    }),
+    getArtistTopTracks: builder.query<
+      SpotifyApi.ArtistsTopTracksResponse,
+      { id: string }
+    >({
+      query: (id) => `artists/${id.id}/top-tracks?market=US`,
+    }),
+    getArtistRelatedArtists: builder.query<
+      SpotifyApi.ArtistsRelatedArtistsResponse,
+      { id: string }
+    >({
+      query: (id) => `artists/${id.id}/related-artists`,
+    }),
     refreshAccessToken: builder.query<{ access_token: string }, void>({
       query: () => ({
         url: "https://accounts.spotify.com/api/token",
@@ -92,4 +113,8 @@ export const {
   useGetSingleCategoryQuery,
   useGetGenericSearchResultsQuery,
   useGetSpecificSearchResultsQuery,
+  useGetArtistInfoQuery,
+  useGetArtistAlbumsQuery,
+  useGetArtistTopTracksQuery,
+  useGetArtistRelatedArtistsQuery,
 } = apiSlice;

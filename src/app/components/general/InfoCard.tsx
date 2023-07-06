@@ -28,15 +28,17 @@ export default function InfoCard(props: Props) {
             alt={props.header}
           />
         </div>
-        <div
-          className={`text-white font-bold mt-2 ${
-            props.clampOne ? "line-clamp-1" : "line-clamp-2"
-          }`}
-        >
-          {props.header}
-        </div>
-        <div className="text-zinc-400 text-xs line-clamp-2">
-          {props.description}
+        <div className="flex flex-col justify-between items-start grow">
+          <div
+            className={`text-white font-bold mt-2 ${
+              props.clampOne ? "line-clamp-1" : "line-clamp-2"
+            }`}
+          >
+            {props.header}
+          </div>
+          <div className="text-zinc-400 text-xs line-clamp-2">
+            {props.description}
+          </div>
         </div>
       </div>
     </Link>
