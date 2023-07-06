@@ -9,10 +9,11 @@ import {
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { FastAverageColor, FastAverageColorResult } from "fast-average-color";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { PiPlayCircleFill } from "react-icons/pi";
 import TrackRow from "@/app/components/Layout/MusicDisplays/Tracks/TrackRow";
 import CategoryRow from "@/app/components/Layout/MusicDisplays/CategoryRow";
+import { StyleContext } from "@/lib/contexts/styleContext";
 
 export default function ArtistPage() {
   const params = useParams();
@@ -20,6 +21,8 @@ export default function ArtistPage() {
   const [mainColor, setMainColor] = useState<FastAverageColorResult | null>(
     null
   );
+
+  const colorContext = useContext(StyleContext);
 
   const { data, isLoading, isError } = useGetArtistInfoQuery({
     id: params.id,
@@ -56,6 +59,7 @@ export default function ArtistPage() {
         // console.log(color);
         setBgGradient(color.hex);
         setMainColor(color);
+        colorContext.setTopbarBG(color.hex);
       });
     }
 
@@ -145,8 +149,8 @@ export default function ArtistPage() {
                     ...album,
                     header: album.name,
                     description:
-                      album.type.charAt(0).toUpperCase() +
-                      album.type.slice(1, album.type.length),
+                      album.album_type.charAt(0).toUpperCase() +
+                      album.album_type.slice(1, album.type.length + 1),
                     imageUrl: album.images[0].url,
                     type: "album",
                     url: `/album/${album.id}`,

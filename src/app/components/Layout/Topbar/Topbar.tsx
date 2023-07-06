@@ -8,6 +8,7 @@ import BrowsingControls from "./BrowsingControls";
 import Searchbar from "./Searchbar";
 import { StyleContext } from "@/lib/contexts/styleContext";
 import SearchCategories from "./SearchCategories";
+import { usePathname } from "next/navigation";
 
 type Props = {
   refreshingToken: boolean;
@@ -19,6 +20,8 @@ export default function Topbar({ refreshingToken }: Props) {
   );
 
   const [trigger, { isLoading, isError, data, error }] = useLazyGetMeQuery();
+
+  const path = usePathname();
 
   const styleContext = useContext(StyleContext);
 
@@ -63,7 +66,9 @@ export default function Topbar({ refreshingToken }: Props) {
         </div>
 
         {loggedIn ? (
-          <div className="grow text-right">Welcome, {data?.display_name}</div>
+          <div className="grow text-right mr-2">
+            Welcome, {data?.display_name}
+          </div>
         ) : loggedIn && refreshingToken ? (
           <div>Getting your data...</div>
         ) : (
