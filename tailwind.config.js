@@ -18,6 +18,7 @@ module.exports = {
         "spotify-playlist-bg": "#323232",
         "spotify-light-bg": "#1E1E1E",
         "spotify-gray-text": "#B3B3B3",
+        "spotify-green": "#1DB954",
       }
     },
 

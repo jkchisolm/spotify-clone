@@ -28,7 +28,7 @@ body {
 
 .main-layout {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-columns: auto 1fr;
   grid-template-rows: minmax(0, 10fr) 0.75fr;
   grid-template-areas:
     "navbar mainpage queue"
@@ -36,6 +36,17 @@ body {
   grid-column-gap: 5px;
   grid-row-gap: 5px;
 }
+
+/* on hover of scrollbox class, make scrollbar thumb #888 */
+.scrollbox:hover::-webkit-scrollbar-thumb {
+  background: #888;
+  visibility: visible;
+  /* fade in */
+  transition: background 0.5s ease-in-out;
+  transition: visibility 0s 0.5s;
+}
+
+
 
 ::-webkit-scrollbar {
   width: 5px;
@@ -46,5 +57,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: transparent;
+  visibility: hidden;
+  transition: visibility 0.5s;
 }

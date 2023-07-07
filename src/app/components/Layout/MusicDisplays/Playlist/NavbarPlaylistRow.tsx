@@ -8,7 +8,7 @@ type Props = {
 export default function NavbarPlaylistRow({ playlist }: Props) {
   return (
     <Link href={`/playlist/${playlist.id}`}>
-      <div className="flex flex-row justify-start items-center hover:bg-zinc-400 hover:bg-opacity-10 hover:cursor-pointer p-3">
+      <div className="flex flex-row justify-start items-center hover:bg-zinc-400 hover:bg-opacity-10 hover:cursor-pointer p-3 rounded">
         <Image
           src={playlist.images[0].url}
           alt={playlist.name}
@@ -17,9 +17,9 @@ export default function NavbarPlaylistRow({ playlist }: Props) {
           className="rounded"
         />
         <div className="flex flex-col justify-center items-start ml-2">
-          <div className="text-white font-bold">{playlist.name}</div>
-          <div className="text-zinc-400 text-sm">
-            by {playlist.owner.display_name} | {playlist.tracks.total} tracks
+          <div className="text-white font-semibold">{playlist.name}</div>
+          <div className="text-spotify-gray-text text-sm">
+            by {playlist.owner.display_name} • {playlist.tracks.total} tracks
           </div>
         </div>
       </div>

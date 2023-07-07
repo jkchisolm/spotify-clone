@@ -55,7 +55,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    styleContext.setTopbarBG("#121212");
+    styleContext.setTopbarBG("#033314");
 
     let date = new Date();
     let hour = date.getHours();
@@ -71,7 +71,6 @@ export default function Home() {
 
   useEffect(() => {
     if (apiContext.refresh_token != "" && apiContext.refreshing != true) {
-      // fetchUserPlaylists();
       triggerGetUserPlaylists({ limit: 50 });
       fetchTopPlaylists();
       fetchFeaturedPlaylists();
@@ -79,10 +78,15 @@ export default function Home() {
   }, [apiContext.refresh_token]);
 
   return (
-    <div className="text-white bg-spotify-dark-bg w-full h-full pb-4 rounded">
+    <div
+      className="text-white  w-full h-full pb-4"
+      style={{
+        background: `linear-gradient(180deg, #033314 0%, #121212 30%)`,
+      }}
+    >
       {apiContext.refresh_token != "" ? (
         <div className="">
-          <div className="text-3xl font-bold ml-2 pt-5">{welcomeString}</div>
+          <div className="text-3xl font-bold ml-2 py-3">{welcomeString}</div>
           <div>
             {userPlaylistData != undefined && (
               <UserPlaylistRow

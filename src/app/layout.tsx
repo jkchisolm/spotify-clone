@@ -40,8 +40,8 @@ export default function RootLayout({
               <Navbar />
               <div
                 className={`${
-                  queueOpen ? "col-span-1" : "col-span-2"
-                } flex flex-col overflow-auto relative`}
+                  queueOpen ? "col-span-1" : "col-span-2 scrollbox"
+                } flex flex-col overflow-auto relative `}
               >
                 <Topbar refreshingToken={apiContext.refreshing} />
                 {!apiContext.refreshing ? (

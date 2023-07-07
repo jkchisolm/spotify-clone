@@ -8,7 +8,7 @@ type Props = {
 export default function UserPlaylistCard({ playlist }: Props) {
   return (
     <Link href={`/playlist/${playlist.id}`}>
-      <div className="flex flex-row justify-start items-center bg-spotify-playlist-bg bg-opacity-70 hover:cursor-pointer rounded">
+      <div className="flex flex-row justify-start items-center bg-spotify-playlist-bg bg-opacity-70 hover:cursor-pointer hover:bg-zinc-700 hover:bg-opacity-70 rounded transition-all">
         <Image
           src={playlist.images[0].url}
           alt={playlist.name}

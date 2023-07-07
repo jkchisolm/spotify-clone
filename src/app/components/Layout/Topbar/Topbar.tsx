@@ -50,7 +50,7 @@ export default function Topbar({ refreshingToken }: Props) {
 
   return (
     <div
-      className="sticky top-0 left-0 right-0 flex flex-col justify-start items-stretch z-10"
+      className="sticky top-0 left-0 right-0 flex flex-col justify-start items-stretch z-10 transition-all rounded-t"
       style={{
         backgroundColor: styleContext.topbar_bg
           ? styleContext.topbar_bg
