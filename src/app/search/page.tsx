@@ -4,9 +4,11 @@ import { useGetAvailableCategoriesQuery } from "@/store/slices/apiSlice";
 import CategoryCard from "../components/search/CategoryCard";
 import { useContext, useEffect, useState } from "react";
 import { ApiContext } from "@/lib/contexts/apiContext";
+import { StyleContext } from "@/lib/contexts/styleContext";
 
 export default function SearchPage() {
   const apiContext = useContext(ApiContext);
+  const styleContext = useContext(StyleContext);
 
   const {
     data: availableCategories,
@@ -16,6 +18,10 @@ export default function SearchPage() {
   } = useGetAvailableCategoriesQuery();
 
   const [refreshing, setRefreshing] = useState(false);
+
+  useEffect(() => {
+    styleContext.setTopbarBG("#121212");
+  });
 
   useEffect(() => {
     if (apiContext.refreshing) {
