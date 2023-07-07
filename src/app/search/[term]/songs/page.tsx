@@ -26,7 +26,7 @@ export default function SearchSongs() {
   return (
     <div className="min-h-full">
       {data && (
-        <div className="bg-zinc-900 pt-8 px-8  min-h-full pb-4">
+        <div className="bg-spotify-dark-bg pt-8 px-8  min-h-full pb-4">
           <TrackContainer displayType="results" tracks={data.tracks?.items!} />
         </div>
       )}

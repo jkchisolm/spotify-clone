@@ -75,7 +75,7 @@ export default function ArtistPage() {
         <div
           className={`h-full w-full flex flex-col justify-start items-center pt-10 pb-4`}
           style={{
-            background: `linear-gradient(180deg, ${bgGradient} 0%, #18181b 30%)`,
+            background: `linear-gradient(180deg, ${bgGradient} 0%, #121212 30%)`,
           }}
         >
           <div className="flex flex-row justify-start items-center w-full px-4">
@@ -114,7 +114,7 @@ export default function ArtistPage() {
               size={72}
             />
           </div>
-          <div className="flex flex-col justify-start items-start w-full px-4 mt-5 pt-10 bg-zinc-900">
+          <div className="flex flex-col justify-start items-start w-full px-4 mt-5 pt-10 bg-spotify-dark-bg">
             <h1 className="text-2xl font-bold text-white pl-2 mb-2">Popular</h1>
             {artistTopTracks ? (
               <div className="w-full px-8">

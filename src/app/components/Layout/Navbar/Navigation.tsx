@@ -11,7 +11,7 @@ const Navigation = (props: Props) => {
 
   return (
     <div className="text-white flex flex-col">
-      <div className="bg-zinc-900 rounded py-6 px-5">
+      <div className="bg-spotify-dark-bg rounded py-6 px-5">
         <div
           className={`${
             pathname == "/" ? "font-bold" : ""

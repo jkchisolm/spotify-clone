@@ -48,7 +48,7 @@ export default function RootLayout({
                   <AuthWrapper>{children}</AuthWrapper>
                 ) : (
                   // children
-                  <div className="flex flex-col items-center justify-center h-full bg-zinc-900">
+                  <div className="flex flex-col items-center justify-center h-full bg-spotify-dark-bg">
                     <div className="text-white">Getting your data...</div>
                   </div>
                 )}

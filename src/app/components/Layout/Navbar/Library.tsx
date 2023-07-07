@@ -35,8 +35,8 @@ export default function Library() {
   }, [apiContext.refreshing]);
 
   return (
-    <div className="bg-zinc-900 rounded flex flex-col mt-2 text-white px-2 pb-2 h-full overflow-scroll relative">
-      <div className="flex flex-row justify-between items-center sticky top-0 bg-zinc-900 py-4">
+    <div className="bg-spotify-dark-bg rounded flex flex-col mt-2 text-white px-2 pb-2 h-full overflow-scroll relative">
+      <div className="flex flex-row justify-between items-center sticky top-0 bg-spotify-dark-bg py-4">
         <div>
           <h1 className="text-lg text-zinc-500 font-bold flex flex-row items-center">
             <BiLibrary size={32} /> <span className="ml-4">Your Library</span>

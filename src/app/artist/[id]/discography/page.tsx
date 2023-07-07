@@ -38,7 +38,7 @@ export default function ArtistDiscography() {
   return (
     <div className="min-h-full">
       {data && (
-        <div className="bg-zinc-900 text-white pt-8 px-3 min-h-full flex flex-col pb-4">
+        <div className="bg-spotify-dark-bg text-white pt-8 px-3 min-h-full flex flex-col pb-4">
           <h1 className="text-3xl font-bold mb-4">{artistInfo?.name}</h1>
           {data.items.map((album) => {
             return (

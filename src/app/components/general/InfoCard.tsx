@@ -15,7 +15,7 @@ export default function InfoCard(props: Props) {
   return (
     <Link href={props.url}>
       <div
-        className="col-span-1 flex flex-col p-3 grow bg-zinc-800 rounded hover:bg-zinc-700 hover:cursor-pointer h-full"
+        className="col-span-1 flex flex-col p-3 grow bg-spotify-card-bg rounded hover:bg-zinc-700 hover:cursor-pointer h-full"
         key={props.id}
       >
         <div className="relative w-full aspect-square">

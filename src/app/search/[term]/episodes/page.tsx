@@ -25,7 +25,7 @@ export default function SearchEpisodes() {
   return (
     <div className="min-h-full">
       {data && (
-        <div className="bg-zinc-900 pt-8 px-8 min-h-full pb-4">
+        <div className="bg-spotify-dark-bg pt-8 px-8 min-h-full pb-4">
           <div className="w-1/2">
             <EpisodeContainer episodes={data.episodes?.items!} />
           </div>

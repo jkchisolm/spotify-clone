@@ -13,7 +13,7 @@ export default function SearchResultsPage({
   });
 
   return (
-    <div className="bg-zinc-900 text-white pt-12 min-h-fit pb-4">
+    <div className="bg-spotify-dark-bg text-white pt-12 min-h-fit pb-4">
       {data && (
         <div className="flex flex-col h-full">
           <div className="mt-4 mx-3">

@@ -12,11 +12,15 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      colors: {
+        "spotify-dark-bg": "#121212",
+        "spotify-card-bg": "#181818",
+        "spotify-playlist-bg": "#323232",
+        "spotify-light-bg": "#1E1E1E",
+        "spotify-gray-text": "#B3B3B3",
+      }
     },
-    colors: {
-      "spotify-dark-bg": "#121212",
-      "spotify-light-bg": "#1E1E1E",
-    }
+
   },
   plugins: [],
 }

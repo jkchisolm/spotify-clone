@@ -27,7 +27,7 @@ export default function SearchCategoryPage({
   return (
     <div className="min-h-full">
       {data && categoryInfo && (
-        <div className="bg-zinc-900 text-white pt-8 px-3 min-h-full flex flex-col pb-4">
+        <div className="bg-spotify-dark-bg text-white pt-8 px-3 min-h-full flex flex-col pb-4">
           <div className="text-7xl text-white font-bold pt-16 mb-20">
             {categoryInfo.name}
           </div>

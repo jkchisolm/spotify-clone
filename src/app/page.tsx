@@ -8,6 +8,7 @@ import { useContext, useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
 import CategoryRow from "./components/Layout/MusicDisplays/CategoryRow";
 import UserPlaylistRow from "./components/Layout/MusicDisplays/Playlist/UserPlaylistRow";
+import { StyleContext } from "@/lib/contexts/styleContext";
 
 export default function Home() {
   const loggedIn = useAppSelector(
@@ -17,6 +18,7 @@ export default function Home() {
   const dispatch = useAppDispatch();
 
   const apiContext = useContext(ApiContext);
+  const styleContext = useContext(StyleContext);
 
   const [
     triggerGetUserPlaylists,
@@ -53,6 +55,8 @@ export default function Home() {
   };
 
   useEffect(() => {
+    styleContext.setTopbarBG("#121212");
+
     let date = new Date();
     let hour = date.getHours();
 
@@ -75,7 +79,7 @@ export default function Home() {
   }, [apiContext.refresh_token]);
 
   return (
-    <div className="text-white bg-zinc-900 w-full h-full pb-4 rounded">
+    <div className="text-white bg-spotify-dark-bg w-full h-full pb-4 rounded">
       {apiContext.refresh_token != "" ? (
         <div className="">
           <div className="text-3xl font-bold ml-2 pt-5">{welcomeString}</div>

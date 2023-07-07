@@ -24,7 +24,7 @@ export default function RelatedArtists() {
   return (
     <div className="min-h-full">
       {data && (
-        <div className="bg-zinc-900 text-white pt-8 px-3 min-h-full flex flex-col pb-4">
+        <div className="bg-spotify-dark-bg text-white pt-8 px-3 min-h-full flex flex-col pb-4">
           <h1 className="text-2xl font-bold mb-4">Fans also like</h1>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-4">
             {data.artists
