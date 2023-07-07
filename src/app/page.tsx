@@ -104,7 +104,7 @@ export default function Home() {
                       header: playlist.name,
                       description: playlist.description!,
                       imageUrl: playlist.images[0].url,
-                      url: playlist.uri,
+                      url: `/playlist/${playlist.id}`,
                     };
                   })}
                   rowName="Top Playlists"
@@ -123,7 +123,7 @@ export default function Home() {
                       header: playlist.name,
                       description: playlist.description!,
                       imageUrl: playlist.images[0].url,
-                      url: playlist.uri,
+                      url: `/playlist/${playlist.id}`,
                     };
                   })}
                   rowName="Featured Playlists"

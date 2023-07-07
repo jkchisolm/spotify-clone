@@ -36,7 +36,7 @@ export default function SearchPlaylists() {
                     header={playlist.name}
                     description={"By " + playlist.owner.display_name}
                     imageUrl={playlist.images[0].url}
-                    imageType="circle"
+                    imageType="square"
                     url={`/playlist/${playlist.id}`}
                     id={playlist.id}
                     clampOne={true}
