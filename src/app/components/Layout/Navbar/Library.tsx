@@ -11,6 +11,7 @@ import Button from "../../general/Button";
 import NavbarPlaylistRow from "../MusicDisplays/Playlist/NavbarPlaylistRow";
 import { useContext, useEffect, useState } from "react";
 import { ApiContext } from "@/lib/contexts/apiContext";
+import useAuth from "@/lib/hooks/useAuth";
 
 export default function Library() {
   const {
@@ -24,15 +25,20 @@ export default function Library() {
 
   const apiContext = useContext(ApiContext);
 
+  const auth = useAuth();
+
+  // useEffect(() => {
+  //   if (apiContext.refreshing) {
+  //     setRefreshing(true);
+  //   } else if (apiContext.refreshing == false && refreshing) {
+  //     setRefreshing(false);
+  //     console.log("refetching user api");
+  //     refetch();
+  //   }
+  // }, [apiContext.refreshing]);
   useEffect(() => {
-    if (apiContext.refreshing) {
-      setRefreshing(true);
-    } else if (apiContext.refreshing == false && refreshing) {
-      setRefreshing(false);
-      console.log("refetching user api");
-      refetch();
-    }
-  }, [apiContext.refreshing]);
+    refetch();
+  }, [auth.accessToken]);
 
   return (
     <div className="bg-spotify-dark-bg rounded flex flex-col mt-2 text-white px-2 pb-2 h-full overflow-scroll relative scrollbox">
@@ -46,7 +52,42 @@ export default function Library() {
           <BiPlus size={24} />
         </div>
       </div>
-      {isFetching ? (
+      {!auth.accessToken ? (
+        <div className="text-white flex flex-col items-stretch my-4 grow-0">
+          <div className="bg-zinc-800 p-4 rounded">
+            <div className="font-bold">Create your first playlist</div>
+            <div className="my-1">It&apos;s easy, we&apos;ll help you.</div>
+            <div className="my-4">
+              <Button
+                color="bg-white"
+                hoverColor="bg-slate-400"
+                textColor="text-black"
+                style="pill"
+              >
+                Create playlist
+              </Button>
+            </div>
+          </div>
+          <div className="bg-zinc-800 p-4 rounded mt-4">
+            <div className="font-bold">
+              Let&apos;s find some podcasts to follow
+            </div>
+            <div className="my-1">
+              We&apos;ll keep you updated on new episodes.
+            </div>
+            <div className="my-4">
+              <Button
+                color="bg-white"
+                hoverColor="bg-slate-400"
+                textColor="text-black"
+                style="pill"
+              >
+                Browse podcasts
+              </Button>
+            </div>
+          </div>
+        </div>
+      ) : isFetching ? (
         <div className="text-white flex flex-row justify-center items-center justify-self-center">
           <MoonLoader color="#ffffff" loading={isFetching} size={50} />
         </div>

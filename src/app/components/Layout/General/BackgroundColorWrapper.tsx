@@ -18,7 +18,7 @@ export default function BackgroundColorWrapper(props: Props) {
 
   return (
     <div
-      className="transition-all"
+      className="transition-all min-h-fit p-5"
       style={{
         background: `linear-gradient(180deg, ${bgColor} 0%, #121212 30%)`,
       }}

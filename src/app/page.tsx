@@ -9,6 +9,7 @@ import SpotifyWebApi from "spotify-web-api-js";
 import CategoryRow from "./components/Layout/MusicDisplays/CategoryRow";
 import UserPlaylistRow from "./components/Layout/MusicDisplays/Playlist/UserPlaylistRow";
 import { StyleContext } from "@/lib/contexts/styleContext";
+import useAuth from "@/lib/hooks/useAuth";
 
 export default function Home() {
   const loggedIn = useAppSelector(
@@ -19,6 +20,7 @@ export default function Home() {
 
   const apiContext = useContext(ApiContext);
   const styleContext = useContext(StyleContext);
+  const auth = useAuth();
 
   const [
     triggerGetUserPlaylists,
@@ -70,23 +72,18 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (apiContext.refresh_token != "" && apiContext.refreshing != true) {
+    if (auth.refreshToken != "" && apiContext.refreshing != true) {
       triggerGetUserPlaylists({ limit: 50 });
       fetchTopPlaylists();
       fetchFeaturedPlaylists();
     }
-  }, [apiContext.refresh_token]);
+  }, [auth.refreshToken]);
 
   return (
-    <div
-      className="text-white  w-full h-full pb-4 bg-transparent"
-      // style={{
-      //   background: `linear-gradient(180deg, #033314 0%, #121212 30%)`,
-      // }}
-    >
-      {apiContext.refresh_token != "" ? (
+    <div className="text-white w-full bg-transparent">
+      {auth.refreshToken != "" && auth.accessToken ? (
         <div className="">
-          <div className="text-3xl font-bold ml-2 py-3">{welcomeString}</div>
+          <div className="text-3xl font-bold py-3">{welcomeString}</div>
           <div>
             {userPlaylistData != undefined && (
               <UserPlaylistRow
@@ -95,7 +92,7 @@ export default function Home() {
               />
             )}
             {topPlaylists != undefined && (
-              <div className="mt-4 mx-3">
+              <div className="mt-4">
                 <CategoryRow
                   // playlists={topPlaylists}
                   items={topPlaylists.map((playlist) => {
@@ -114,7 +111,7 @@ export default function Home() {
               </div>
             )}
             {featuredPlaylists != undefined && (
-              <div className="mt-4 mx-3">
+              <div className="mt-4">
                 <CategoryRow
                   // playlists={featuredPlaylists}
                   items={featuredPlaylists.map((playlist) => {

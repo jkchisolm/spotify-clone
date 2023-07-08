@@ -2,7 +2,7 @@ import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 
 export default function BrowsingControls() {
   return (
-    <div className="flex flex-row items-center ml-4">
+    <div className="flex flex-row items-center">
       <div className="bg-spotify-dark-bg bg-opacity-70 rounded-full mr-2">
         <BiChevronLeft
           size={32}

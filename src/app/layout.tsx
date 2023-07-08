@@ -16,6 +16,7 @@ import {
   StyleContextProvider,
 } from "@/lib/contexts/styleContext";
 import BackgroundColorWrapper from "./components/Layout/General/BackgroundColorWrapper";
+import useAuth from "@/lib/hooks/useAuth";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -28,6 +29,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const [queueOpen, setQueueOpen] = useState(false);
+
+  const auth = useAuth();
 
   const apiContext = useContext(ApiContext);
   const styleContext = useContext(StyleContext);
@@ -46,14 +49,7 @@ export default function RootLayout({
               >
                 <BackgroundColorWrapper>
                   <Topbar refreshingToken={apiContext.refreshing} />
-                  {!apiContext.refreshing ? (
-                    <AuthWrapper>{children}</AuthWrapper>
-                  ) : (
-                    // children
-                    <div className="flex flex-col items-center justify-center h-full bg-spotify-dark-bg">
-                      <div className="text-white">Getting your data...</div>
-                    </div>
-                  )}
+                  {children}
                 </BackgroundColorWrapper>
               </div>
               <Player />

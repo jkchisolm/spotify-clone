@@ -14,6 +14,7 @@ export default function UserPlaylistCard({ playlist }: Props) {
           alt={playlist.name}
           width={75}
           height={75}
+          className="rounded-l"
         />
         <div className="text-white ml-2 font-bold">{playlist.name}</div>
       </div>

@@ -9,6 +9,7 @@ import Searchbar from "./Searchbar";
 import { StyleContext } from "@/lib/contexts/styleContext";
 import SearchCategories from "./SearchCategories";
 import { usePathname } from "next/navigation";
+import useAuth from "@/lib/hooks/useAuth";
 
 type Props = {
   refreshingToken: boolean;
@@ -23,13 +24,15 @@ export default function Topbar({ refreshingToken }: Props) {
 
   const path = usePathname();
 
+  const auth = useAuth();
+
   const styleContext = useContext(StyleContext);
 
   useEffect(() => {
-    if (loggedIn) {
+    if (auth.accessToken) {
       trigger();
     }
-  }, [loggedIn]);
+  }, [auth.accessToken, trigger]);
 
   useEffect(() => {
     console.log(data);
@@ -49,30 +52,35 @@ export default function Topbar({ refreshingToken }: Props) {
   };
 
   return (
-    <div
-      className="sticky top-0 left-0 right-0 flex flex-col justify-start items-stretch z-10 transition-all rounded-t bg-transparent"
-      // style={{
-      //   backgroundColor: styleContext.topbar_bg
-      //     ? styleContext.topbar_bg
-      //     : "#18181b",
-      // }}
-    >
-      <div
-        className={` text-white  py-4 flex flex-row justify-between items-center`}
-      >
+    <div className="sticky top-0 left-0 right-0 flex flex-col justify-start items-stretch z-10 transition-all rounded-t bg-transparent">
+      <div className={` text-white flex flex-row justify-between items-center`}>
         <div className="flex flex-row justify-start items-center grow">
           <BrowsingControls />
           <Searchbar />
         </div>
 
-        {loggedIn ? (
-          <div className="grow text-right mr-2">
-            Welcome, {data?.display_name}
+        {auth.accessToken ? (
+          <div className="grow text-right">
+            <div className="flex flex-row justify-end items-center">
+              <div className="text-white bg-black px-2 py-1 rounded-full font-semibold">
+                {data?.display_name}
+              </div>
+              <div
+                className="text-black bg-white px-2 py-1 rounded-full font-semibold ml-2 hover:cursor-pointer hover:bg-slate-200"
+                onClick={() => {
+                  auth.logout();
+                  // reload page
+                  window.location.reload();
+                }}
+              >
+                Logout
+              </div>
+            </div>
           </div>
-        ) : loggedIn && refreshingToken ? (
+        ) : auth.accessToken && refreshingToken ? (
           <div>Getting your data...</div>
         ) : (
-          <div className="grow">
+          <div className="grow flex flex-row justify-end">
             <Button
               color="bg-green-500"
               hoverColor="bg-green-600"
