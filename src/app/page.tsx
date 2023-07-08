@@ -79,10 +79,10 @@ export default function Home() {
 
   return (
     <div
-      className="text-white  w-full h-full pb-4"
-      style={{
-        background: `linear-gradient(180deg, #033314 0%, #121212 30%)`,
-      }}
+      className="text-white  w-full h-full pb-4 bg-transparent"
+      // style={{
+      //   background: `linear-gradient(180deg, #033314 0%, #121212 30%)`,
+      // }}
     >
       {apiContext.refresh_token != "" ? (
         <div className="">

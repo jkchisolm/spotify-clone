@@ -46,7 +46,7 @@ export default function SearchAlbums() {
                         ? album.images[0].url
                         : "https://i.scdn.co/image/ab6761610000e5ebb1a15fd3e7c1b375dea2637a"
                     }
-                    imageType="circle"
+                    imageType="square"
                     url={`/album/${album.id}`}
                     id={album.id}
                     clampOne={true}

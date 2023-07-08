@@ -15,6 +15,7 @@ import {
   StyleContext,
   StyleContextProvider,
 } from "@/lib/contexts/styleContext";
+import BackgroundColorWrapper from "./components/Layout/General/BackgroundColorWrapper";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -43,15 +44,17 @@ export default function RootLayout({
                   queueOpen ? "col-span-1" : "col-span-2 scrollbox"
                 } flex flex-col overflow-auto relative `}
               >
-                <Topbar refreshingToken={apiContext.refreshing} />
-                {!apiContext.refreshing ? (
-                  <AuthWrapper>{children}</AuthWrapper>
-                ) : (
-                  // children
-                  <div className="flex flex-col items-center justify-center h-full bg-spotify-dark-bg">
-                    <div className="text-white">Getting your data...</div>
-                  </div>
-                )}
+                <BackgroundColorWrapper>
+                  <Topbar refreshingToken={apiContext.refreshing} />
+                  {!apiContext.refreshing ? (
+                    <AuthWrapper>{children}</AuthWrapper>
+                  ) : (
+                    // children
+                    <div className="flex flex-col items-center justify-center h-full bg-spotify-dark-bg">
+                      <div className="text-white">Getting your data...</div>
+                    </div>
+                  )}
+                </BackgroundColorWrapper>
               </div>
               <Player />
             </body>

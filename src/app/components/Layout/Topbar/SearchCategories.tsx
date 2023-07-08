@@ -25,7 +25,7 @@ export default function SearchCategories() {
   return (
     <div>
       {pathname.startsWith("/search") && params.term && (
-        <div className="flex flex-row justify-start items-center">
+        <div className="flex flex-row justify-start items-center mb-2">
           {Object.keys(categories).map((category) => {
             const allCategory =
               pathname.endsWith(params.term) || pathname.endsWith("/all");
