@@ -1,32 +1,25 @@
 "use client";
 
-import { useAppSelector } from "@/lib/hooks/hooks";
+import { StyleContext } from "@/lib/contexts/styleContext";
+import useAuth from "@/lib/hooks/useAuth";
 import { useLazyGetMeQuery } from "@/store/slices/apiSlice";
-import { useContext, useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { useContext, useEffect, useState } from "react";
 import Button from "../../general/Button";
 import BrowsingControls from "./BrowsingControls";
-import Searchbar from "./Searchbar";
-import { StyleContext } from "@/lib/contexts/styleContext";
 import SearchCategories from "./SearchCategories";
-import { usePathname } from "next/navigation";
-import useAuth from "@/lib/hooks/useAuth";
+import Searchbar from "./Searchbar";
 
 type Props = {
   refreshingToken: boolean;
 };
 
 export default function Topbar({ refreshingToken }: Props) {
-  const loggedIn = useAppSelector(
-    (state) => state.spotifyApi.userAuthenticated
-  );
-
   const [trigger, { isLoading, isError, data, error }] = useLazyGetMeQuery();
 
   const path = usePathname();
 
   const auth = useAuth();
-
-  const styleContext = useContext(StyleContext);
 
   useEffect(() => {
     if (auth.accessToken) {
@@ -52,7 +45,7 @@ export default function Topbar({ refreshingToken }: Props) {
   };
 
   return (
-    <div className="sticky top-0 left-0 right-0 flex flex-col justify-start items-stretch z-10 transition-all rounded-t bg-transparent">
+    <div className="flex flex-col justify-start items-stretch z-10 transition-all rounded-t bg-transparent">
       <div className={` text-white flex flex-row justify-between items-center`}>
         <div className="flex flex-row justify-start items-center grow">
           <BrowsingControls />

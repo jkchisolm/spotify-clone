@@ -1,7 +1,10 @@
 "use client";
 
 import CategoryRow from "@/app/components/Layout/MusicDisplays/CategoryRow";
+import { StyleContext } from "@/lib/contexts/styleContext";
+import useAuth from "@/lib/hooks/useAuth";
 import { useGetGenericSearchResultsQuery } from "@/store/slices/apiSlice";
+import { useContext, useEffect } from "react";
 
 export default function SearchResultsPage({
   params,
@@ -12,8 +15,16 @@ export default function SearchResultsPage({
     query: params.term,
   });
 
+  const styleContext = useContext(StyleContext);
+
+  useEffect(() => {
+    styleContext.setTopbarBG("#121212");
+  });
+
+  const auth = useAuth();
+
   return (
-    <div className="bg-spotify-dark-bg text-white pt-12 min-h-fit pb-4">
+    <div className="bg-transparent text-white pt-12 min-h-fit pb-4">
       {data && (
         <div className="flex flex-col h-full">
           <div className="mt-4 mx-3">

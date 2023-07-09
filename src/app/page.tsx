@@ -35,6 +35,8 @@ export default function Home() {
   const [featuredPlaylists, setFeaturedPlaylists] =
     useState<SpotifyApi.PlaylistObjectSimplified[]>();
 
+  const [featuredPlaylistMessage, setFeaturedPlaylistMessage] = useState("");
+
   const fetchTopPlaylists = () => {
     let spotifyApi = new SpotifyWebApi();
     spotifyApi.setAccessToken(Cookies.get("access_token")!);
@@ -53,11 +55,12 @@ export default function Home() {
     spotifyApi.getFeaturedPlaylists({ limit: 7 }).then((data) => {
       console.log(data);
       setFeaturedPlaylists(data.playlists.items);
+      setFeaturedPlaylistMessage(data.message || "Featured Playlists");
     });
   };
 
   useEffect(() => {
-    styleContext.setTopbarBG("#033314");
+    styleContext.setTopbarBG("#03331a");
 
     let date = new Date();
     let hour = date.getHours();
@@ -123,7 +126,7 @@ export default function Home() {
                       url: `/playlist/${playlist.id}`,
                     };
                   })}
-                  rowName="Featured Playlists"
+                  rowName={featuredPlaylistMessage}
                   rowCategory="featured"
                   useShowAllButton={true}
                 />

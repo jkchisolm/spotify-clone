@@ -5,18 +5,17 @@ import Navbar from "./components/Layout/Navbar/Navbar";
 import "./globals.css";
 
 import { ApiContext, ApiContextProvider } from "@/lib/contexts/apiContext";
-import { Montserrat } from "next/font/google";
-import { Provider } from "react-redux";
-import { store } from "../store/store";
-import Player from "./components/Layout/NowPlaying/Player";
-import Topbar from "./components/Layout/Topbar/Topbar";
-import AuthWrapper from "./components/auth/AuthWrapper";
 import {
   StyleContext,
   StyleContextProvider,
 } from "@/lib/contexts/styleContext";
-import BackgroundColorWrapper from "./components/Layout/General/BackgroundColorWrapper";
 import useAuth from "@/lib/hooks/useAuth";
+import { Montserrat } from "next/font/google";
+import { Provider } from "react-redux";
+import { store } from "../store/store";
+import BodyContainer from "./components/Layout/General/BodyContainer";
+import Player from "./components/Layout/NowPlaying/Player";
+import Topbar from "./components/Layout/Topbar/Topbar";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -35,6 +34,8 @@ export default function RootLayout({
   const apiContext = useContext(ApiContext);
   const styleContext = useContext(StyleContext);
 
+  const [topbarOpacity, setTopbarOpacity] = useState("");
+
   return (
     <Provider store={store}>
       <ApiContextProvider>
@@ -47,10 +48,10 @@ export default function RootLayout({
                   queueOpen ? "col-span-1" : "col-span-2 scrollbox"
                 } flex flex-col overflow-auto relative `}
               >
-                <BackgroundColorWrapper>
+                <BodyContainer>
                   <Topbar refreshingToken={apiContext.refreshing} />
                   {children}
-                </BackgroundColorWrapper>
+                </BodyContainer>
               </div>
               <Player />
             </body>

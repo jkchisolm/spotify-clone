@@ -25,15 +25,23 @@ export default function SearchCategoryPage({
   console.log(data);
 
   return (
-    <div className="min-h-full">
+    <div className="">
       {data && categoryInfo && (
-        <div className="bg-spotify-dark-bg text-white pt-8 px-3 min-h-full flex flex-col pb-4">
+        <div className="bg-transparent text-white pt-8 px-3 flex flex-col pb-4">
           <div className="text-7xl text-white font-bold pt-16 mb-20">
             {categoryInfo.name}
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-4">
             {data.playlists.items
               .filter((n) => n)
+              // remove any duplicates
+              .filter(
+                (thing, index, self) =>
+                  index ===
+                  self.findIndex(
+                    (t) => t.id === thing.id && t.name === thing.name
+                  )
+              )
               .map((playlist) => {
                 return (
                   <InfoCard

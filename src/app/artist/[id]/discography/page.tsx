@@ -1,5 +1,7 @@
 "use client";
 
+import { StyleContext } from "@/lib/contexts/styleContext";
+import useAuth from "@/lib/hooks/useAuth";
 import {
   useGetArtistAlbumsQuery,
   useGetArtistInfoQuery,
@@ -7,11 +9,14 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useContext, useEffect } from "react";
 import { PiPlayCircleFill } from "react-icons/pi";
 import { MoonLoader } from "react-spinners";
 
 export default function ArtistDiscography() {
   const params = useParams();
+  const auth = useAuth();
+  const styleContext = useContext(StyleContext);
 
   const {
     data: artistInfo,
@@ -26,6 +31,10 @@ export default function ArtistDiscography() {
     limit: 50,
   });
 
+  useEffect(() => {
+    styleContext.setTopbarBG("#121212");
+  }, []);
+
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center h-full">
@@ -35,10 +44,13 @@ export default function ArtistDiscography() {
     );
   }
 
+  // get a string of all of the album ids separated by commas
+  const albumIds = data?.items.map((album) => album.id).join(",");
+
   return (
     <div className="min-h-full">
       {data && (
-        <div className="bg-spotify-dark-bg text-white pt-8 px-3 min-h-full flex flex-col pb-4">
+        <div className="bg-transparent text-white pt-8 px-3 min-h-full flex flex-col pb-4">
           <h1 className="text-3xl font-bold mb-4">{artistInfo?.name}</h1>
           {data.items.map((album) => {
             return (

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { BsPlayCircleFill } from "react-icons/bs";
+import PlayButton from "./PlayButton";
 
 type Props = {
   header: string;
@@ -13,6 +13,19 @@ type Props = {
 };
 
 export default function InfoCard(props: Props) {
+  // if the description has an anchor tag, remove it and only show the text inside
+
+  let description = props.description;
+
+  if (props.description.includes("</a>")) {
+    // remove ONLY the anchor tags and keep the text inside
+    description = description.replace(/<a\b[^>]*>(.*?)<\/a>/i, "$1");
+    // remove hrefs
+    description = description.replace(/href="(.*?)"/i, "");
+  }
+
+  console.log(description);
+
   return (
     <Link href={props.url}>
       <div
@@ -28,11 +41,13 @@ export default function InfoCard(props: Props) {
             src={props.imageUrl}
             alt={props.header}
           />
-          <div className="absolute bottom-0 right-0 shadow-xl">
-            <BsPlayCircleFill
-              size={50}
-              className={`text-spotify-green bg-black rounded-full m-2 opacity-0 group-hover:opacity-100 transition-all duration-700`}
-            />
+          <div className="absolute bottom-3 right-3 shadow-xl">
+            <div className="w-12 h-12">
+              <PlayButton requireHover />
+            </div>
+            {/* <div className="text-black bg-spotify-green text-2xl leading-6 rounded-full p-3 m-2 opacity-0 group-hover:opacity-100 transform-all duration-500 shadow-lg shadow-black">
+              ▶
+            </div> */}
           </div>
         </div>
         <div className="flex flex-col justify-start items-start grow">
@@ -42,7 +57,7 @@ export default function InfoCard(props: Props) {
             {props.header}
           </div>
           <div className="text-zinc-400 text-xs line-clamp-2 leading-5 mb-1 max-h-10 min-h-[40px]">
-            {props.description}
+            {description}
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ import CategoryCard from "../components/search/CategoryCard";
 import { useContext, useEffect, useState } from "react";
 import { ApiContext } from "@/lib/contexts/apiContext";
 import { StyleContext } from "@/lib/contexts/styleContext";
+import useAuth from "@/lib/hooks/useAuth";
 
 export default function SearchPage() {
   const apiContext = useContext(ApiContext);
@@ -18,6 +19,8 @@ export default function SearchPage() {
   } = useGetAvailableCategoriesQuery();
 
   const [refreshing, setRefreshing] = useState(false);
+
+  const auth = useAuth();
 
   useEffect(() => {
     styleContext.setTopbarBG("#121212");

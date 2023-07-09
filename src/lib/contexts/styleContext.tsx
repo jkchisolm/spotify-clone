@@ -1,3 +1,4 @@
+import { stringify } from "querystring";
 import { createContext, useState } from "react";
 
 type Props = {
@@ -5,12 +6,12 @@ type Props = {
 };
 
 export const StyleContext = createContext({
-  topbar_bg: "",
-  setTopbarBG: (color: string) => {},
+  topbar_bg: "#121212",
+  setTopbarBG: (value: string) => {},
 });
 
 export const StyleContextProvider = (props: Props) => {
-  const [topbar_bg, setTopbarBG] = useState("");
+  const [topbar_bg, setTopbarBG] = useState<string>("#121212");
 
   return (
     <StyleContext.Provider

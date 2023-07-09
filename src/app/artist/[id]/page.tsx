@@ -73,21 +73,27 @@ export default function ArtistPage() {
     <div className="min-h-fit">
       {data ? (
         <div
-          className={`h-full w-full flex flex-col justify-start items-center pt-10 pb-4`}
-          style={{
-            background: `linear-gradient(180deg, ${bgGradient} 0%, #121212 30%)`,
-          }}
+          className={`h-full w-full flex flex-col justify-start items-center pt-10 pb-4 bg-transparent`}
         >
-          <div className="flex flex-row justify-start items-center w-full px-4">
-            <Image
-              src={data.images[0].url}
-              alt={data.name}
-              style={{
-                borderRadius: "100%",
-              }}
-              height={200}
-              width={200}
-            />
+          <div className="flex flex-row justify-start items-center w-full">
+            <div
+              className="relative"
+              style={{ width: "200px", height: "200px" }}
+            >
+              <Image
+                src={
+                  data.images[0].url
+                    ? data.images[0].url
+                    : "https://i.scdn.co/image/ab6761610000e5ebb1a15fd3e7c1b375dea2637a"
+                }
+                alt={data.name}
+                style={{
+                  borderRadius: "50%",
+                }}
+                className="object-cover"
+                fill
+              />
+            </div>
             <div className="flex flex-col ml-5">
               <h1 className="text-7xl font-extrabold text-white">
                 {data.name}
@@ -108,13 +114,13 @@ export default function ArtistPage() {
               </div>
             </div>
           </div>
-          <div className="flex flex-row justify-start items-center w-full px-4 mt-5">
+          <div className="flex flex-row justify-start items-center w-full mt-5">
             <PiPlayCircleFill
               className="text-green-500 text-4xl hover:text-green-700 hover:cursor-pointer"
               size={72}
             />
           </div>
-          <div className="flex flex-col justify-start items-start w-full px-4 mt-5 pt-10 bg-spotify-dark-bg">
+          <div className="flex flex-col justify-start items-start w-full mt-5 pt-10 bg-transparent">
             <h1 className="text-2xl font-bold text-white pl-2 mb-2">Popular</h1>
             {artistTopTracks ? (
               <div className="w-full px-8">
@@ -141,7 +147,7 @@ export default function ArtistPage() {
               </div>
             )}
           </div>
-          <div className="flex flex-col justify-start items-start w-full px-4 mt-5 text-white">
+          <div className="flex flex-col justify-start items-start w-full mt-5 text-white">
             {artistDiscography ? (
               <CategoryRow
                 items={artistDiscography.items!.map((album) => {
@@ -167,7 +173,7 @@ export default function ArtistPage() {
               </div>
             )}
           </div>
-          <div className="flex flex-col justify-start items-start w-full px-4 mt-5">
+          <div className="flex flex-col justify-start items-start w-full mt-5">
             {relatedArtists ? (
               <div className="w-full text-white">
                 <CategoryRow

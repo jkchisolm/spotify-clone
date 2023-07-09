@@ -24,6 +24,12 @@ export const apiSlice = createApi({
     >({
       query: () => "me/playlists",
     }),
+    getSinglePlaylist: builder.query<
+      SpotifyApi.SinglePlaylistResponse,
+      { id: string }
+    >({
+      query: (id) => `playlists/${id.id}`,
+    }),
     getUserLibrary: builder.query<getUserPlaylistsResponse, void>({
       query: () => "me/playlists?limit=50",
     }),
@@ -102,6 +108,7 @@ export const {
   useGetMeQuery,
   useLazyGetMeQuery,
   useGetUserPlaylistsQuery,
+  useGetSinglePlaylistQuery,
   useLazyGetUserPlaylistsQuery,
   useRefreshAccessTokenQuery,
   useLazyRefreshAccessTokenQuery,
