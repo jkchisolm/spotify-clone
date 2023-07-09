@@ -31,7 +31,7 @@ export default function CategoryRow({
   showAllUrl,
 }: Props) {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-full h-full">
       <div className="flex flex-row justify-between">
         <h1 className="text-2xl font-bold">{rowName}</h1>
         {useShowAllButton && (
