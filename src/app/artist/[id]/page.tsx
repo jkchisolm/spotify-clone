@@ -68,7 +68,7 @@ export default function ArtistPage() {
     if (data) {
       getColor();
     }
-  }, [data]);
+  }, [data, colorContext]);
 
   if (isLoading) {
     return (

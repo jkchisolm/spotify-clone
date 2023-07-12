@@ -38,7 +38,7 @@ export default function Library() {
   // }, [apiContext.refreshing]);
   useEffect(() => {
     refetch();
-  }, [auth.accessToken]);
+  }, [auth.accessToken, refetch]);
 
   return (
     <div className="bg-spotify-dark-bg rounded flex flex-col mt-2 text-white px-2 pb-2 h-full overflow-scroll relative scrollbox">

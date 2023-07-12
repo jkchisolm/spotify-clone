@@ -34,7 +34,7 @@ export default function SearchPage() {
       console.log("refetching user api");
       refetch();
     }
-  }, [apiContext.refreshing]);
+  }, [apiContext.refreshing, refetch, refreshing]);
 
   return (
     <div className="bg-spotify-dark-bg text-white pt-16 px-4 min-h-fit pb-4">

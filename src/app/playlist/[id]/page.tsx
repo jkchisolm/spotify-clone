@@ -40,7 +40,7 @@ export default function PlaylistPage() {
     if (data) {
       getColor();
     }
-  }, [data]);
+  }, [data, styleContext]);
 
   useEffect(() => {
     if (data) {
@@ -86,7 +86,7 @@ export default function PlaylistPage() {
       // setTracks(newTracks);
       console.log(tracks);
     }
-  }, [data]);
+  }, [data, params.id, trigger, tracks]);
 
   if (isLoading) {
     return (
@@ -152,7 +152,6 @@ export default function PlaylistPage() {
               displayType="playlist"
             />
           </div>
-          
         </div>
       )}
     </div>

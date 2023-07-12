@@ -32,8 +32,10 @@ export default function TrackRow(props: Props) {
       <div className="col-span-1 flex flex-row justify-start items-center">
         <Image
           src={
+            // @ts-ignore
             curTrack.album.images.length > 0
-              ? curTrack.album.images[0].url
+              ? // @ts-ignore
+                curTrack.album.images[0].url
               : "https://i.scdn.co/image/ab6761610000e5ebb1a15fd3e7c1b375dea2637a"
           }
           alt={
