@@ -131,7 +131,10 @@ export default function PlaylistPage() {
                 <span className="font-bold">{data.owner.display_name}</span>{" "}
                 &#x2022; {data.tracks.total} songs,{" "}
                 <span className="text-spotify-gray-text">
-                  {data.followers.total} followers
+                  {data.followers.total
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{" "}
+                  followers
                 </span>
               </div>
             </div>

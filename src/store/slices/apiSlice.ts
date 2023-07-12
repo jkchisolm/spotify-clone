@@ -18,6 +18,12 @@ export const apiSlice = createApi({
     getMe: builder.query<SpotifyApi.CurrentUsersProfileResponse, void>({
       query: () => "me",
     }),
+    getSingleAlbum: builder.query<
+      SpotifyApi.SingleAlbumResponse,
+      { id: string }
+    >({
+      query: (id) => `albums/${id.id}`,
+    }),
     getUserPlaylists: builder.query<
       getUserPlaylistsResponse,
       { limit?: number }
@@ -132,4 +138,5 @@ export const {
   useGetArtistAlbumsQuery,
   useGetArtistTopTracksQuery,
   useGetArtistRelatedArtistsQuery,
+  useGetSingleAlbumQuery,
 } = apiSlice;

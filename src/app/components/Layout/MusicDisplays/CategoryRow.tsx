@@ -10,7 +10,6 @@ type CategoryCard = {
 };
 
 type Props = {
-  playlists?: SpotifyApi.PlaylistObjectSimplified[];
   items: CategoryCard[];
   rowName: string;
   rowCategory?: string;
@@ -21,7 +20,6 @@ type Props = {
 };
 
 export default function CategoryRow({
-  playlists,
   items,
   rowName,
   rowCategory,

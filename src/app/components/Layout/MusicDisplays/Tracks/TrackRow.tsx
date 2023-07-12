@@ -127,7 +127,7 @@ export default function TrackRow(props: Props) {
         <></>
       )}
       {props.displayType == "playlist" ? (
-        <div className="col-span-1 text-zinc-400 text-left w-full">
+        <div className="col-span-1 text-zinc-400 text-left w-full flex flex-col justify-center items-start">
           {
             // convert added_at into yyyy-mm-dd
             new Date((props.track as SpotifyApi.PlaylistTrackObject).added_at)

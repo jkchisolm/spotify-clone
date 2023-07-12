@@ -17,7 +17,7 @@ export default function BodyContainer(props: Props) {
   // }, [styleContext.topbar_bg]);
 
   return (
-    <div className="transition-all min-h-fit bg-spotify-dark-bg">
+    <div className="transition-all min-h-full bg-spotify-dark-bg">
       <div
         className="px-5 py-2"
         style={{
