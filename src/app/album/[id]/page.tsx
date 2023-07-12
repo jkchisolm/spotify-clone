@@ -61,7 +61,7 @@ export default function AlbumPage() {
     if (data) {
       getColor();
     }
-  }, [data]);
+  }, [data, styleContext]);
 
   if (isLoading) {
     return (
@@ -152,7 +152,7 @@ export default function AlbumPage() {
             </p>
             {data.copyrights.map((copyright, index) => {
               return (
-                <div key={copyright} className="text-xs">
+                <div key={copyright.text} className="text-xs">
                   {
                     // if text doesn't start with the copyright symbol, add it
                     copyright.text.startsWith(

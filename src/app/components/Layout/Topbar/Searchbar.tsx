@@ -20,7 +20,7 @@ export default function Searchbar() {
     } else {
       setVisible(false);
     }
-  }, [pathname.startsWith("/search")]);
+  }, [pathname]);
 
   return (
     <div

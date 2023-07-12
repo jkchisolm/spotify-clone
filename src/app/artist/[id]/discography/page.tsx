@@ -33,7 +33,7 @@ export default function ArtistDiscography() {
 
   useEffect(() => {
     styleContext.setTopbarBG("#121212");
-  }, []);
+  }, [styleContext]);
 
   if (isLoading) {
     return (
