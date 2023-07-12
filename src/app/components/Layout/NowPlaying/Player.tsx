@@ -65,16 +65,16 @@ export default function Player() {
             console.log(data);
           });
 
-        // get the current playback info
-        await fetch("https://api.spotify.com/v1/me/player", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data);
-          });
+        // // get the current playback info
+        // await fetch("https://api.spotify.com/v1/me/player", {
+        //   headers: {
+        //     Authorization: `Bearer ${accessToken}`,
+        //   },
+        // })
+        //   .then((res) => res.json())
+        //   .then((data) => {
+        //     console.log(data);
+        //   });
 
         // await fetch("https://api.spotify.com/v1/me/player", {
         //   method: "PUT",
@@ -93,7 +93,7 @@ export default function Player() {
   return (
     <div className="col-span-3">
       {loggedIn ? (
-        <div className="text-white bg-zinc-900 w-full h-full">Player</div>
+        <div className="text-white bg-black w-full h-full">Player</div>
       ) : (
         <div>Not logged in</div>
       )}

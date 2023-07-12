@@ -1,17 +1,15 @@
 "use client";
 
+import { ApiContext } from "@/lib/contexts/apiContext";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks/hooks";
-import { setTokens } from "@/store/slices/spotifyApiSlice";
+import { useLazyGetUserPlaylistsQuery } from "@/store/slices/apiSlice";
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
-import PlaylistCategoryRow from "./components/Layout/MusicDisplays/Playlist/PlaylistCategoryRow";
+import CategoryRow from "./components/Layout/MusicDisplays/CategoryRow";
 import UserPlaylistRow from "./components/Layout/MusicDisplays/Playlist/UserPlaylistRow";
-import {
-  useGetMeQuery,
-  useLazyGetUserPlaylistsQuery,
-  useLazyRefreshAccessTokenQuery,
-} from "@/store/slices/apiSlice";
+import { StyleContext } from "@/lib/contexts/styleContext";
+import useAuth from "@/lib/hooks/useAuth";
 
 export default function Home() {
   const loggedIn = useAppSelector(
@@ -19,6 +17,10 @@ export default function Home() {
   );
 
   const dispatch = useAppDispatch();
+
+  const apiContext = useContext(ApiContext);
+  const styleContext = useContext(StyleContext);
+  const auth = useAuth();
 
   const [
     triggerGetUserPlaylists,
@@ -32,6 +34,8 @@ export default function Home() {
 
   const [featuredPlaylists, setFeaturedPlaylists] =
     useState<SpotifyApi.PlaylistObjectSimplified[]>();
+
+  const [featuredPlaylistMessage, setFeaturedPlaylistMessage] = useState("");
 
   const fetchTopPlaylists = () => {
     let spotifyApi = new SpotifyWebApi();
@@ -51,10 +55,13 @@ export default function Home() {
     spotifyApi.getFeaturedPlaylists({ limit: 7 }).then((data) => {
       console.log(data);
       setFeaturedPlaylists(data.playlists.items);
+      setFeaturedPlaylistMessage(data.message || "Featured Playlists");
     });
   };
 
   useEffect(() => {
+    styleContext.setTopbarBG("#03331a");
+
     let date = new Date();
     let hour = date.getHours();
 
@@ -68,38 +75,18 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (loggedIn) {
-      // fetchUserPlaylists();
+    if (auth.refreshToken != "" && apiContext.refreshing != true) {
       triggerGetUserPlaylists({ limit: 50 });
       fetchTopPlaylists();
       fetchFeaturedPlaylists();
     }
-  }, [loggedIn]);
-
-  useEffect(() => {
-    if (Cookies.get("access_token")) {
-      dispatch(
-        setTokens({
-          accessToken: Cookies.get("access_token")!,
-          refreshToken: Cookies.get("refresh_token")!,
-        })
-      );
-    } // else, if the access token does not exist, or was created over an hour ago, we must refresh it
-    else if (
-      Cookies.get("access_token") == undefined ||
-      Cookies.get("creation_time") == undefined ||
-      (Date.now() - parseInt(Cookies.get("creation_time")!)) / 1000 > 3600
-    ) {
-      // refresh access token w/ call to API
-      console.log("refreshing access token");
-    }
-  }, [Cookies.get("access_token")]);
+  }, [auth.refreshToken]);
 
   return (
-    <div className="text-white bg-zinc-900 w-full h-full mt-2 rounded">
-      {loggedIn ? (
+    <div className="text-white w-full bg-transparent">
+      {auth.refreshToken != "" && auth.accessToken ? (
         <div className="">
-          <div className="text-3xl font-bold ml-2 pt-5">{welcomeString}</div>
+          <div className="text-3xl font-bold py-3">{welcomeString}</div>
           <div>
             {userPlaylistData != undefined && (
               <UserPlaylistRow
@@ -108,20 +95,40 @@ export default function Home() {
               />
             )}
             {topPlaylists != undefined && (
-              <div className="mt-4 mx-3">
-                <PlaylistCategoryRow
-                  playlists={topPlaylists}
+              <div className="mt-4">
+                <CategoryRow
+                  // playlists={topPlaylists}
+                  items={topPlaylists.map((playlist) => {
+                    return {
+                      id: playlist.id,
+                      header: playlist.name,
+                      description: playlist.description!,
+                      imageUrl: playlist.images[0].url,
+                      url: `/playlist/${playlist.id}`,
+                    };
+                  })}
                   rowName="Top Playlists"
                   rowCategory="toplists"
+                  useShowAllButton={true}
                 />
               </div>
             )}
             {featuredPlaylists != undefined && (
-              <div className="mt-4 mx-3">
-                <PlaylistCategoryRow
-                  playlists={featuredPlaylists}
-                  rowName="Featured Playlists"
+              <div className="mt-4">
+                <CategoryRow
+                  // playlists={featuredPlaylists}
+                  items={featuredPlaylists.map((playlist) => {
+                    return {
+                      id: playlist.id,
+                      header: playlist.name,
+                      description: playlist.description!,
+                      imageUrl: playlist.images[0].url,
+                      url: `/playlist/${playlist.id}`,
+                    };
+                  })}
+                  rowName={featuredPlaylistMessage}
                   rowCategory="featured"
+                  useShowAllButton={true}
                 />
               </div>
             )}

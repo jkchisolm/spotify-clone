@@ -45,6 +45,7 @@ export async function GET(request: NextRequest) {
     cookieStore.set("access_token", access_token);
     cookieStore.set("refresh_token", refresh_token);
     cookieStore.set("creation_time", Date.now().toString());
+    cookieStore.set("expires_in", data.expires_in);
 
     return NextResponse.redirect(
       process.env.PROD == "true"
