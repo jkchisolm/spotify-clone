@@ -40,7 +40,7 @@ export default function SearchResultsPage({
                       track.album.images.length > 0
                         ? track.album.images[0].url
                         : "https://i.scdn.co/image/ab6761610000e5ebb1a15fd3e7c1b375dea2637a",
-                    url: `/track/${track.id}`,
+                    url: `/album/${track.album.id}`,
                   };
                 })}
               rowName="Tracks"

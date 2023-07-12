@@ -150,14 +150,18 @@ export default function AlbumPage() {
             <p className="text-sm">
               {formatDate("long", new Date(data.release_date))}
             </p>
-            {data.copyrights.map((copyright) => {
+            {data.copyrights.map((copyright, index) => {
               return (
                 <div key={copyright} className="text-xs">
                   {
                     // if text doesn't start with the copyright symbol, add it
-                    copyright.text.startsWith(String.fromCharCode(169))
+                    copyright.text.startsWith(
+                      index == 0 ? String.fromCharCode(169) : "℗"
+                    )
                       ? ""
-                      : String.fromCharCode(169) + " "
+                      : index == 0
+                      ? String.fromCharCode(169) + " "
+                      : "℗ "
                   }
                   {copyright.text}
                 </div>
