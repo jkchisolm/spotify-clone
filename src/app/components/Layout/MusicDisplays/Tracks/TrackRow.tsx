@@ -1,3 +1,4 @@
+import { formatDate } from "@/lib/helpers/formatDate";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -130,9 +131,13 @@ export default function TrackRow(props: Props) {
         <div className="col-span-1 text-zinc-400 text-left w-full flex flex-col justify-center items-start">
           {
             // convert added_at into yyyy-mm-dd
-            new Date((props.track as SpotifyApi.PlaylistTrackObject).added_at)
-              .toISOString()
-              .substr(0, 10)
+            formatDate(
+              "short",
+              new Date((props.track as SpotifyApi.PlaylistTrackObject).added_at)
+            )
+            // new Date((props.track as SpotifyApi.PlaylistTrackObject).added_at)
+            //   .toISOString()
+            //   .substr(0, 10)
             /* {(props.track as SpotifyApi.PlaylistTrackObject).added_at} */
           }
         </div>

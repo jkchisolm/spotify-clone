@@ -13,6 +13,7 @@ import Image from "next/image";
 import PlayButton from "@/app/components/general/PlayButton";
 import TrackContainer from "@/app/components/Layout/MusicDisplays/Tracks/TrackContainer";
 import { sanitizeDescription } from "@/lib/helpers/sanitizeDescription";
+import { formatDate } from "@/lib/helpers/formatDate";
 
 export default function PlaylistPage() {
   const params = useParams();
@@ -89,16 +90,12 @@ export default function PlaylistPage() {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center h-full">
-        <MoonLoader color={"#1DB954"} />
+      <div className="flex flex-col items-center justify-center h-full min-h-screen">
+        <MoonLoader color="#1DB954" />
         <p className="text-gray-400">Loading...</p>
       </div>
     );
   }
-
-  // if (data) {
-  //   setTracks([...tracks, ...data.tracks.items]);
-  // }
 
   return (
     <div className="min-h-fit">
@@ -155,6 +152,7 @@ export default function PlaylistPage() {
               displayType="playlist"
             />
           </div>
+          
         </div>
       )}
     </div>

@@ -3,6 +3,7 @@
 import TrackContainer from "@/app/components/Layout/MusicDisplays/Tracks/TrackContainer";
 import PlayButton from "@/app/components/general/PlayButton";
 import { StyleContext } from "@/lib/contexts/styleContext";
+import { formatDate } from "@/lib/helpers/formatDate";
 import { useGetSingleAlbumQuery } from "@/store/slices/apiSlice";
 import { FastAverageColor } from "fast-average-color";
 import Image from "next/image";
@@ -144,6 +145,24 @@ export default function AlbumPage() {
               })}
               displayType={"album"}
             />
+          </div>
+          <div className="mt-4 text-spotify-gray-text flex flex-col justify-start items-start w-full">
+            <p className="text-sm">
+              {formatDate("long", new Date(data.release_date))}
+            </p>
+            {data.copyrights.map((copyright) => {
+              return (
+                <div key={copyright} className="text-xs">
+                  {
+                    // if text doesn't start with the copyright symbol, add it
+                    copyright.text.startsWith(String.fromCharCode(169))
+                      ? ""
+                      : String.fromCharCode(169) + " "
+                  }
+                  {copyright.text}
+                </div>
+              );
+            })}
           </div>
         </div>
       )}

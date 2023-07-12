@@ -14,6 +14,7 @@ import { PiPlayCircleFill } from "react-icons/pi";
 import TrackRow from "@/app/components/Layout/MusicDisplays/Tracks/TrackRow";
 import CategoryRow from "@/app/components/Layout/MusicDisplays/CategoryRow";
 import { StyleContext } from "@/lib/contexts/styleContext";
+import { MoonLoader } from "react-spinners";
 
 export default function ArtistPage() {
   const params = useParams();
@@ -68,6 +69,15 @@ export default function ArtistPage() {
       getColor();
     }
   }, [data]);
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full min-h-screen">
+        <MoonLoader color="#1DB954" />
+        <p className="text-gray-400">Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-fit">
