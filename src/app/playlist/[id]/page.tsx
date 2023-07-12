@@ -76,7 +76,6 @@ export default function PlaylistPage() {
           curTracks = [...curTracks, ...res.data!.items];
           setTracks(curTracks);
           console.log(curTracks);
-          // newTracks = [...tracks, ...res.data!.items];
         });
         i++;
         trackCount -= 50;
@@ -86,7 +85,7 @@ export default function PlaylistPage() {
       // setTracks(newTracks);
       console.log(tracks);
     }
-  }, [data, params.id, trigger, tracks]);
+  }, [data]);
 
   if (isLoading) {
     return (
