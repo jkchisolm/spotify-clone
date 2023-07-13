@@ -105,6 +105,7 @@ export default function Home() {
                       description: playlist.description!,
                       imageUrl: playlist.images[0].url,
                       url: `/playlist/${playlist.id}`,
+                      uri: playlist.uri,
                     };
                   })}
                   rowName="Top Playlists"
@@ -125,6 +126,7 @@ export default function Home() {
                       description: playlist.description!,
                       imageUrl: playlist.images[0].url,
                       url: `/playlist/${playlist.id}`,
+                      uri: playlist.uri,
                     };
                   })}
                   rowName={featuredPlaylistMessage}

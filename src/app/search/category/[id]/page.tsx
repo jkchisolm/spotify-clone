@@ -52,6 +52,7 @@ export default function SearchCategoryPage({
                     imageType="square"
                     url={`/playlist/${playlist.id}`}
                     id={playlist.id}
+                    uri={playlist.uri}
                   />
                 );
               })}

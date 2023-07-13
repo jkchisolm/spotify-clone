@@ -41,6 +41,7 @@ export default function SearchResultsPage({
                         ? track.album.images[0].url
                         : "https://i.scdn.co/image/ab6761610000e5ebb1a15fd3e7c1b375dea2637a",
                     url: `/album/${track.album.id}`,
+                    uri: track.album.uri,
                   };
                 })}
               rowName="Tracks"
@@ -64,6 +65,7 @@ export default function SearchResultsPage({
                         ? artist.images[0].url
                         : "https://i.scdn.co/image/ab6761610000e5ebb1a15fd3e7c1b375dea2637a",
                     url: `/artist/${artist.id}`,
+                    uri: artist.uri,
                   };
                 })}
               rowName="Artists"
@@ -88,6 +90,7 @@ export default function SearchResultsPage({
                         ? album.images[0].url
                         : "https://i.scdn.co/image/ab6761610000e5ebb1a15fd3e7c1b375dea2637a",
                     url: `/album/${album.id}`,
+                    uri: album.uri,
                   };
                 })}
               rowName="Albums"
@@ -108,6 +111,7 @@ export default function SearchResultsPage({
                       description: "By " + playlist.owner.display_name,
                       imageUrl: playlist.images[0].url,
                       url: `/playlist/${playlist.id}`,
+                      uri: playlist.uri,
                     };
                   })
               }
@@ -129,6 +133,7 @@ export default function SearchResultsPage({
                       description: "By " + show.publisher,
                       imageUrl: show.images[0].url,
                       url: `/show/${show.id}`,
+                      uri: show.uri,
                     };
                   })
               }
@@ -155,6 +160,7 @@ export default function SearchResultsPage({
                         " min",
                       imageUrl: episode.images[0].url,
                       url: `/episode/${episode.id}`,
+                      uri: episode.uri,
                     };
                   })
               }
@@ -179,6 +185,7 @@ export default function SearchResultsPage({
                       description: audiobook.authors[0].name,
                       imageUrl: audiobook.images[0].url,
                       url: `/audiobook/${audiobook.id}`,
+                      uri: audiobook.uri,
                     };
                   })
               }

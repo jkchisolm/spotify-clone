@@ -159,6 +159,26 @@ export const apiSlice = createApi({
         },
       }),
     }),
+    next: builder.mutation<void, { device_id: string }>({
+      query: (params) => ({
+        url: `me/player/next`,
+        method: "POST",
+        body: JSON.stringify(params),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+    previous: builder.mutation<void, { device_id: string }>({
+      query: (params) => ({
+        url: `me/player/previous`,
+        method: "POST",
+        body: JSON.stringify(params),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
   }),
 });
 
@@ -189,4 +209,6 @@ export const {
   usePlayCollectionMutation,
   useTransferPlaybackMutation,
   usePauseMutation,
+  useNextMutation,
+  usePreviousMutation,
 } = apiSlice;
