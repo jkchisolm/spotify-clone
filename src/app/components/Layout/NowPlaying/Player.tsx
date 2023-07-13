@@ -9,7 +9,11 @@ import {
 } from "@/store/slices/apiSlice";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
-import { setDeviceId, setCurrentTrack } from "@/store/slices/playerSlice";
+import {
+  setDeviceId,
+  setCurrentTrack,
+  setTrackStatus,
+} from "@/store/slices/playerSlice";
 import PlayerInfo from "./PlayerInfo";
 import PlayerControls from "./PlayerControls";
 
@@ -60,15 +64,17 @@ export default function Player() {
         console.log("Device ID has gone offline", device_id);
       });
 
-      player.addListener(
-        "player_state_changed",
-        ({ position, duration, track_window: { current_track } }) => {
-          console.log("Currently Playing", current_track);
-          console.log("Position in Song", position);
-          console.log("Duration of Song", duration);
-          dispatch(setCurrentTrack(current_track));
+      player.addListener("player_state_changed", (info) => {
+        if (info) {
+          console.log("Currently Playing", info.track_window.current_track);
+          if (info.position) {
+            console.log("Position in Song", info.position);
+          }
+          console.log("Duration of Song", info.duration);
+          dispatch(setCurrentTrack(info.track_window.current_track));
+          dispatch(setTrackStatus({ isPlaying: !info.paused }));
         }
-      );
+      });
 
       player.connect();
 
@@ -89,19 +95,23 @@ export default function Player() {
         transferPlayback({ device_ids: [deviceId], play: false });
       }
     };
+
+    return () => {
+      document.body.removeChild(script);
+    };
   }, [auth.accessToken]);
 
   return (
     <div className="col-span-3">
       {auth.accessToken && player ? (
         <div className="text-white bg-black px-4 w-full h-full flex flex-row justify-between items-center">
-          <div>
+          <div className="w-[30%]">
             <PlayerInfo />
           </div>
-          <div>
+          <div className="w-[40%]">
             <PlayerControls />
           </div>
-          <div>Volume and stuff</div>
+          <div className="w-[30%] text-right">Volume and stuff</div>
         </div>
       ) : (
         <div>Not logged in</div>

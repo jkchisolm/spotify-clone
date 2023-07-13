@@ -138,7 +138,7 @@ export const apiSlice = createApi({
     }),
     playCollection: builder.mutation<
       void,
-      { device_id: string; context_uri: string }
+      { device_id: string; context_uri?: string }
     >({
       query: (params) => ({
         url: `me/player/play`,
@@ -188,4 +188,5 @@ export const {
   usePlayMutation,
   usePlayCollectionMutation,
   useTransferPlaybackMutation,
+  usePauseMutation,
 } = apiSlice;
