@@ -15,6 +15,7 @@ import TrackRow from "@/app/components/Layout/MusicDisplays/Tracks/TrackRow";
 import CategoryRow from "@/app/components/Layout/MusicDisplays/CategoryRow";
 import { StyleContext } from "@/lib/contexts/styleContext";
 import { MoonLoader } from "react-spinners";
+import PlayButton from "@/app/components/general/PlayButton";
 
 export default function ArtistPage() {
   const params = useParams();
@@ -125,10 +126,13 @@ export default function ArtistPage() {
             </div>
           </div>
           <div className="flex flex-row justify-start items-center w-full mt-5">
-            <PiPlayCircleFill
-              className="text-green-500 text-4xl hover:text-green-700 hover:cursor-pointer"
-              size={72}
-            />
+            <div className="w-16 h-16">
+              <PlayButton
+                fontSize="text-4xl"
+                requireHover={false}
+                playContext={data.uri}
+              />
+            </div>
           </div>
           <div className="flex flex-col justify-start items-start w-full mt-5 pt-10 bg-transparent">
             <h1 className="text-2xl font-bold text-white pl-2 mb-2">Popular</h1>

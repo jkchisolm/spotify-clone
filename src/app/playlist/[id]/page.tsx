@@ -137,7 +137,11 @@ export default function PlaylistPage() {
           </div>
           <div className="flex flex-row justify-start items-center w-full mt-10">
             <div className="w-16 h-16">
-              <PlayButton requireHover={false} fontSize="text-4xl" />
+              <PlayButton
+                requireHover={false}
+                fontSize="text-4xl"
+                playContext={data.uri}
+              />
             </div>
           </div>
           <div className="mt-4">
