@@ -179,6 +179,39 @@ export const apiSlice = createApi({
         },
       }),
     }),
+    repeat: builder.mutation<
+      void,
+      { device_id: string; state: "off" | "track" | "context" }
+    >({
+      query: (params) => ({
+        url: `me/player/repeat?state=${params.state}`,
+        method: "PUT",
+        body: JSON.stringify(params),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+    shuffle: builder.mutation<void, { device_id: string; state: boolean }>({
+      query: (params) => ({
+        url: `me/player/shuffle?state=${params.state}`,
+        method: "PUT",
+        body: JSON.stringify(params),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+    seek: builder.mutation<void, { device_id: string; position_ms: number }>({
+      query: (params) => ({
+        url: `me/player/seek?position_ms=${params.position_ms}`,
+        method: "PUT",
+        body: JSON.stringify(params),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    })
   }),
 });
 
@@ -211,4 +244,7 @@ export const {
   usePauseMutation,
   useNextMutation,
   usePreviousMutation,
+  useRepeatMutation,
+  useShuffleMutation,
+  useSeekMutation,
 } = apiSlice;

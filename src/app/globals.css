@@ -61,3 +61,11 @@ body {
   visibility: hidden;
   transition: visibility 0.5s;
 }
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  color: white;
+}

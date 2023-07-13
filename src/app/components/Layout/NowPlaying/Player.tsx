@@ -3,19 +3,17 @@
 import { useAppDispatch, useAppSelector } from "@/lib/hooks/hooks";
 import useAuth from "@/lib/hooks/useAuth";
 import {
-  useLazyGetMeQuery,
   useLazyRefreshAccessTokenQuery,
   useTransferPlaybackMutation,
 } from "@/store/slices/apiSlice";
-import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
 import {
-  setDeviceId,
   setCurrentTrack,
+  setDeviceId,
   setTrackStatus,
 } from "@/store/slices/playerSlice";
-import PlayerInfo from "./PlayerInfo";
+import { useEffect, useState } from "react";
 import PlayerControls from "./PlayerControls";
+import PlayerInfo from "./PlayerInfo";
 
 export default function Player() {
   const [player, setPlayer] = useState<Spotify.Player | null>(null);
@@ -66,13 +64,16 @@ export default function Player() {
 
       player.addListener("player_state_changed", (info) => {
         if (info) {
-          console.log("Currently Playing", info.track_window.current_track);
-          if (info.position) {
-            console.log("Position in Song", info.position);
-          }
-          console.log("Duration of Song", info.duration);
           dispatch(setCurrentTrack(info.track_window.current_track));
-          dispatch(setTrackStatus({ isPlaying: !info.paused }));
+          dispatch(
+            setTrackStatus({
+              isPlaying: !info.paused,
+              shuffleState: info.shuffle,
+              repeatState: info.repeat_mode,
+              duration: info.duration,
+              currentProgressMs: info.position,
+            })
+          );
         }
       });
 
@@ -88,7 +89,7 @@ export default function Player() {
         })
           .then((res) => res.json())
           .then((data) => {
-            console.log(data);
+            // console.log(data);
           });
 
         // // transfer playback to this device

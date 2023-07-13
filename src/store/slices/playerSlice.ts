@@ -5,6 +5,10 @@ interface PlayerState {
   currentTrack: Spotify.Track | null;
   trackStatus: {
     isPlaying: boolean;
+    currentProgressMs?: number;
+    shuffleState?: boolean;
+    repeatState?: number;
+    duration?: number;
   };
 }
 
@@ -26,8 +30,23 @@ export const playerSlice = createSlice({
     setCurrentTrack: (state, action: PayloadAction<Spotify.Track>) => {
       state.currentTrack = action.payload;
     },
-    setTrackStatus: (state, action: PayloadAction<{ isPlaying: boolean }>) => {
+    setTrackStatus: (
+      state,
+      action: PayloadAction<{
+        isPlaying: boolean;
+        shuffleState?: boolean;
+        repeatState?: number;
+        duration?: number;
+        currentProgressMs?: number;
+      }>
+    ) => {
       state.trackStatus = action.payload;
+      if (action.payload.shuffleState !== undefined) {
+        state.trackStatus.shuffleState = action.payload.shuffleState;
+      }
+      if (action.payload.repeatState !== undefined) {
+        state.trackStatus.repeatState = action.payload.repeatState;
+      }
     },
   },
 });

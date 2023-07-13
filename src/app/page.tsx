@@ -75,12 +75,16 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (auth.refreshToken != "" && apiContext.refreshing != true) {
+    if (
+      auth.refreshToken != "" &&
+      apiContext.refreshing != true &&
+      auth.refreshing != true
+    ) {
       triggerGetUserPlaylists({ limit: 50 });
       fetchTopPlaylists();
       fetchFeaturedPlaylists();
     }
-  }, [auth.refreshToken]);
+  }, [auth.refreshToken, apiContext.refreshing, auth.refreshing]);
 
   return (
     <div className="text-white w-full bg-transparent">
