@@ -166,7 +166,7 @@ export default function ArtistPage() {
                     header: album.name,
                     description:
                       album.album_type.charAt(0).toUpperCase() +
-                      album.album_type.slice(1, album.type.length + 1),
+                      album.album_type.slice(1),
                     imageUrl: album.images[0].url,
                     type: "album",
                     url: `/album/${album.id}`,

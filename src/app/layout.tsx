@@ -20,6 +20,7 @@ import Topbar from "./components/Layout/Topbar/Topbar";
 const montserrat = Montserrat({
   subsets: ["latin"],
   display: "swap",
+  adjustFontFallback: false,
 });
 
 export default function RootLayout({

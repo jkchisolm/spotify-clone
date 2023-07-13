@@ -113,6 +113,52 @@ export const apiSlice = createApi({
         },
       }),
     }),
+    transferPlayback: builder.mutation<
+      void,
+      { device_ids: string[]; play: boolean }
+    >({
+      query: (params) => ({
+        url: "me/player",
+        method: "PUT",
+        body: JSON.stringify(params),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+    play: builder.mutation<void, { device_id: string; uris: string[] }>({
+      query: (params) => ({
+        url: "me/player/play",
+        method: "PUT",
+        body: JSON.stringify(params),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+    playCollection: builder.mutation<
+      void,
+      { device_id: string; context_uri: string }
+    >({
+      query: (params) => ({
+        url: `me/player/play`,
+        method: "PUT",
+        body: JSON.stringify(params),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+    pause: builder.mutation<void, { device_id: string }>({
+      query: (params) => ({
+        url: `me/player/pause`,
+        method: "PUT",
+        body: JSON.stringify(params),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
   }),
 });
 
@@ -139,4 +185,7 @@ export const {
   useGetArtistTopTracksQuery,
   useGetArtistRelatedArtistsQuery,
   useGetSingleAlbumQuery,
+  usePlayMutation,
+  usePlayCollectionMutation,
+  useTransferPlaybackMutation,
 } = apiSlice;

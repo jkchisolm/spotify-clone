@@ -22,8 +22,6 @@ export default function BodyContainer(props: Props) {
         className="px-5 py-2"
         style={{
           background: `linear-gradient(180deg, ${styleContext.topbar_bg} 0%, #121212 25rem)`,
-          backgroundSize: "auto 50rem important!",
-          backgroundRepeat: "no-repeat important!",
         }}
       >
         {props.children}

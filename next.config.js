@@ -17,6 +17,7 @@ const nextConfig = {
         ],
         // domains: ['i.scdn.co', 'charts-images.scdn.co', 'mosaic.scdn.co', '**.scdn.co', 'seed-mix-image.spotifycdn.com', '**.spotifycdn.com']
     },
+    
 
 }
 

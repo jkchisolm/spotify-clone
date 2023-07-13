@@ -110,6 +110,7 @@ export default function Home() {
                   rowName="Top Playlists"
                   rowCategory="toplists"
                   useShowAllButton={true}
+                  showAllUrl={"/search/category/toplists"}
                 />
               </div>
             )}
@@ -129,6 +130,7 @@ export default function Home() {
                   rowName={featuredPlaylistMessage}
                   rowCategory="featured"
                   useShowAllButton={true}
+                  showAllUrl={"/search/"}
                 />
               </div>
             )}
