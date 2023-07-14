@@ -211,6 +211,16 @@ export const apiSlice = createApi({
           "Content-Type": "application/json",
         },
       }),
+    }),
+    changeVolume: builder.mutation<void, { device_id: string, volume: number }>({
+      query: (params) => ({
+        url: `me/player/volume?volume_percent=${params.volume}`,
+        method: "PUT",
+        body: JSON.stringify(params),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
     })
   }),
 });
@@ -247,4 +257,5 @@ export const {
   useRepeatMutation,
   useShuffleMutation,
   useSeekMutation,
+  useChangeVolumeMutation,
 } = apiSlice;

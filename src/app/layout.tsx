@@ -16,6 +16,10 @@ import { store } from "../store/store";
 import BodyContainer from "./components/Layout/General/BodyContainer";
 import Player from "./components/Layout/NowPlaying/Player";
 import Topbar from "./components/Layout/Topbar/Topbar";
+import {
+  PlayerContext,
+  PlayerContextProvider,
+} from "@/lib/contexts/playerContext";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -34,6 +38,7 @@ export default function RootLayout({
 
   const apiContext = useContext(ApiContext);
   const styleContext = useContext(StyleContext);
+  const playerContext = useContext(PlayerContext);
 
   const [topbarOpacity, setTopbarOpacity] = useState("");
 
@@ -54,7 +59,9 @@ export default function RootLayout({
                   {children}
                 </BodyContainer>
               </div>
-              <Player />
+              <PlayerContextProvider>
+                <Player />
+              </PlayerContextProvider>
             </body>
           </html>
         </StyleContextProvider>

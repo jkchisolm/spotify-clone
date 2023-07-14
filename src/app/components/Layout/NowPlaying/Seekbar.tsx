@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSeekMutation } from "@/store/slices/apiSlice";
 
 export default function Seekbar() {
-  const progressBar = useRef(null);
+  const progressBar = useRef<HTMLInputElement>(null);
 
   const [curProgress, setCurProgress] = useState(0);
 
@@ -43,13 +43,14 @@ export default function Seekbar() {
 
   const moveHead = () => {
     if (progressBar.current) {
-      progressBar.current.value = curProgress;
+      progressBar.current.value = curProgress.toString();
     }
   };
 
   const seekToPosition = (e: any) => {
-    const pos = progressBar.current.value;
-    seek({ position_ms: pos, device_id: deviceId! });
+    // only run if user is not dragging
+    const pos = progressBar.current!.value;
+    seek({ position_ms: parseInt(pos), device_id: deviceId! });
   };
 
   // store current track and check out if track changes
@@ -91,7 +92,7 @@ export default function Seekbar() {
     ) {
       setCurProgress(0);
       setCurProgress(currentProgressFromState);
-      progressBar.current.max = duration;
+      progressBar.current.max = duration.toString();
       progressBar.current.style.setProperty(
         "--seek-before-width",
         `${

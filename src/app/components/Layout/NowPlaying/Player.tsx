@@ -11,21 +11,25 @@ import {
   setDeviceId,
   setTrackStatus,
 } from "@/store/slices/playerSlice";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import PlayerControls from "./PlayerControls";
 import PlayerInfo from "./PlayerInfo";
+import DeviceControls from "./DeviceControls";
+import { PlayerContext } from "@/lib/contexts/playerContext";
 
 export default function Player() {
   const [player, setPlayer] = useState<Spotify.Player | null>(null);
   const [transferPlayback, transferResult] = useTransferPlaybackMutation();
 
-  const dispatch = useAppDispatch();
+  const playerContext = useContext(PlayerContext);
 
   const loggedIn = useAppSelector(
     (state) => state.spotifyApi.userAuthenticated
   );
 
   const auth = useAuth();
+
+  const dispatch = useAppDispatch();
 
   // const accessToken = Cookies.get("access_token");
 
@@ -51,11 +55,15 @@ export default function Player() {
       });
 
       setPlayer(player);
+      playerContext.setPlayer(player);
 
       player.addListener("ready", ({ device_id }) => {
         console.log("Ready with Device ID", device_id);
         dispatch(setDeviceId({ id: device_id }));
         transferPlaybackHere(device_id);
+        setTimeout(() => {
+          // playerContext.setPlayer(player);
+        }, 2500);
       });
 
       player.addListener("not_ready", ({ device_id }) => {
@@ -63,6 +71,7 @@ export default function Player() {
       });
 
       player.addListener("player_state_changed", (info) => {
+        // playerContext.setPlayer(player);
         if (info) {
           dispatch(setCurrentTrack(info.track_window.current_track));
           dispatch(
@@ -79,6 +88,8 @@ export default function Player() {
 
       player.connect();
 
+      // player.setVolume(0.3);
+
       // make the current device this one
       async function transferPlaybackHere(deviceId: string) {
         // first get available devices
@@ -94,6 +105,8 @@ export default function Player() {
 
         // // transfer playback to this device
         transferPlayback({ device_ids: [deviceId], play: false });
+
+        // playerContext.setPlayer(player);
       }
     };
 
@@ -112,7 +125,9 @@ export default function Player() {
           <div className="w-[40%]">
             <PlayerControls />
           </div>
-          <div className="w-[30%] text-right">Volume and stuff</div>
+          <div className="w-[30%] text-right">
+            <DeviceControls />
+          </div>
         </div>
       ) : (
         <div>Not logged in</div>

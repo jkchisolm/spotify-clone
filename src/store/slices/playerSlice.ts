@@ -9,6 +9,7 @@ interface PlayerState {
     shuffleState?: boolean;
     repeatState?: number;
     duration?: number;
+    volume?: number;
   };
 }
 
@@ -17,6 +18,7 @@ const initialState: PlayerState = {
   currentTrack: null,
   trackStatus: {
     isPlaying: false,
+    volume: 100,
   },
 };
 
@@ -38,6 +40,7 @@ export const playerSlice = createSlice({
         repeatState?: number;
         duration?: number;
         currentProgressMs?: number;
+        volume?: number;
       }>
     ) => {
       state.trackStatus = action.payload;
