@@ -153,6 +153,7 @@ export default function PlaylistPage() {
                   : data.tracks.items
               }
               displayType="playlist"
+              playlistUri={data.uri}
             />
           </div>
         </div>

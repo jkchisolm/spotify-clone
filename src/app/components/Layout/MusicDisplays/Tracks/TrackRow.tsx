@@ -10,6 +10,7 @@ import { FaPlay } from "react-icons/fa6";
 
 type Props = {
   track: SpotifyApi.TrackObjectFull | SpotifyApi.PlaylistTrackObject;
+  playlistUri?: string;
   displayType: "playlist" | "results" | "album";
   index: number;
 };
@@ -21,7 +22,7 @@ export default function TrackRow(props: Props) {
   const contextUri =
     props.displayType == "playlist"
       ? // @ts-ignore
-        (props.track as SpotifyApi.PlaylistTrackObject).track.album.uri
+        props.playlistUri
       : (props.track as SpotifyApi.TrackObjectFull).album.uri;
 
   const [playTrack] = usePlayCollectionWithOffsetMutation();

@@ -6,6 +6,7 @@ import TrackRow from "./TrackRow";
 type Props = {
   tracks: SpotifyApi.TrackObjectFull[];
   displayType: "playlist" | "results" | "album";
+  playlistUri?: string;
 };
 
 const gridOptions = [
@@ -55,6 +56,7 @@ export default function TrackContainer(props: Props) {
                   track={track}
                   index={index + 1}
                   displayType={props.displayType}
+                  playlistUri={props.playlistUri}
                 />
               );
             })
