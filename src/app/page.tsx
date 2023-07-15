@@ -13,6 +13,7 @@ import CategoryRow from "./components/Layout/MusicDisplays/CategoryRow";
 import UserPlaylistRow from "./components/Layout/MusicDisplays/Playlist/UserPlaylistRow";
 import { StyleContext } from "@/lib/contexts/styleContext";
 import useAuth from "@/lib/hooks/useAuth";
+import { Helmet } from "react-helmet";
 
 export default function Home() {
   const apiContext = useContext(ApiContext);
@@ -85,6 +86,9 @@ export default function Home() {
 
   return (
     <div className="text-white w-full bg-transparent">
+      <Helmet>
+        <title>Home | Recreatify</title>
+      </Helmet>
       {auth.refreshToken != "" && auth.accessToken ? (
         <div className="">
           <div className="text-3xl font-bold py-3">{welcomeString}</div>

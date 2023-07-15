@@ -5,6 +5,7 @@ import { StyleContext } from "@/lib/contexts/styleContext";
 import useAuth from "@/lib/hooks/useAuth";
 import { useGetGenericSearchResultsQuery } from "@/store/slices/apiSlice";
 import { useContext, useEffect } from "react";
+import { Helmet } from "react-helmet";
 
 export default function SearchResultsPage({
   params,
@@ -27,6 +28,9 @@ export default function SearchResultsPage({
     <div className="bg-transparent text-white pt-12 min-h-fit pb-4">
       {data && (
         <div className="flex flex-col h-full">
+          <Helmet>
+            <title>Search for {params.term} | Recreatify</title>
+          </Helmet>
           <div className="mt-4 mx-3">
             <CategoryRow
               items={data!

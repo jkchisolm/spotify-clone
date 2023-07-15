@@ -16,6 +16,7 @@ import CategoryRow from "@/app/components/Layout/MusicDisplays/CategoryRow";
 import { StyleContext } from "@/lib/contexts/styleContext";
 import { MoonLoader } from "react-spinners";
 import PlayButton from "@/app/components/general/PlayButton";
+import { Helmet } from "react-helmet";
 
 export default function ArtistPage() {
   const params = useParams();
@@ -86,6 +87,9 @@ export default function ArtistPage() {
         <div
           className={`h-full w-full flex flex-col justify-start items-center pt-10 pb-4 bg-transparent`}
         >
+          <Helmet>
+            <title>{data.name} | Recreatify</title>
+          </Helmet>
           <div className="flex flex-row justify-start items-center w-full">
             <div
               className="relative"

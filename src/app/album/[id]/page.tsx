@@ -10,6 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useContext, useEffect } from "react";
+import { Helmet } from "react-helmet";
 import { MoonLoader } from "react-spinners";
 
 export default function AlbumPage() {
@@ -76,6 +77,11 @@ export default function AlbumPage() {
     <div className="min-h-fit">
       {data && (
         <div className="h-full w-full flex flex-col justify-start items-center pt-4">
+          <Helmet>
+            <title>
+              {data.name + " by " + data.artists[0].name + " | Recreatify"}
+            </title>
+          </Helmet>
           <div className="flex flex-row justify-start items-center pt-4 w-full">
             <div
               className="relative drop-shadow-2xl shadow-black"

@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import { ApiContext } from "@/lib/contexts/apiContext";
 import { StyleContext } from "@/lib/contexts/styleContext";
 import useAuth from "@/lib/hooks/useAuth";
+import { Helmet } from "react-helmet";
 
 export default function SearchPage() {
   const apiContext = useContext(ApiContext);
@@ -42,6 +43,9 @@ export default function SearchPage() {
         <div>Loading...</div>
       ) : (
         <div className="flex flex-col">
+          <Helmet>
+            <title>Search | Recreatify</title>
+          </Helmet>
           <h1 className="text-3xl font-bold mb-4">Browse all</h1>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 auto-rows-fr gap-5">
             {availableCategories?.categories.items.map((category) => {

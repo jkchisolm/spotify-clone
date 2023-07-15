@@ -1,7 +1,7 @@
 "use client";
 
 import { PlayerContext } from "@/lib/contexts/playerContext";
-import { useAppDispatch } from "@/lib/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks/hooks";
 import useAuth from "@/lib/hooks/useAuth";
 import { useTransferPlaybackMutation } from "@/store/slices/apiSlice";
 import {
@@ -13,6 +13,7 @@ import { useContext, useEffect, useState } from "react";
 import DeviceControls from "./DeviceControls";
 import PlayerControls from "./PlayerControls";
 import PlayerInfo from "./PlayerInfo";
+import { Helmet } from "react-helmet";
 
 export default function Player() {
   const [player, setPlayer] = useState<Spotify.Player | null>(null);
@@ -23,6 +24,8 @@ export default function Player() {
   const auth = useAuth();
 
   const dispatch = useAppDispatch();
+
+  const curTrack = useAppSelector((state) => state.player.currentTrack);
 
   useEffect(() => {
     // console.log(props.token);
@@ -88,6 +91,13 @@ export default function Player() {
 
   return (
     <div className="col-span-3">
+      {curTrack && (
+        <Helmet>
+          <title>
+            {curTrack.name} by {curTrack?.artists[0].name}
+          </title>
+        </Helmet>
+      )}
       {auth.accessToken && player ? (
         <div className="text-white bg-black px-4 w-full h-full flex flex-row justify-between items-center">
           <div className="w-[30%]">
