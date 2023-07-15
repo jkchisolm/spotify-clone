@@ -1,6 +1,12 @@
+"use client";
+
 import { formatDate } from "@/lib/helpers/formatDate";
+import { useAppSelector } from "@/lib/hooks/hooks";
+import { usePlayCollectionWithOffsetMutation } from "@/store/slices/apiSlice";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+import { FaPlay } from "react-icons/fa6";
 
 type Props = {
   track: SpotifyApi.TrackObjectFull | SpotifyApi.PlaylistTrackObject;
@@ -9,10 +15,33 @@ type Props = {
 };
 
 export default function TrackRow(props: Props) {
+  const [hovered, setHovered] = useState(false);
+
+  // if track is a TrackObject, use the album uri. if track is a PlaylistTrackObject, use the playlist uri
+  const contextUri =
+    props.displayType == "playlist"
+      ? // @ts-ignore
+        (props.track as SpotifyApi.PlaylistTrackObject).track.album.uri
+      : (props.track as SpotifyApi.TrackObjectFull).album.uri;
+
+  const [playTrack] = usePlayCollectionWithOffsetMutation();
+
+  const device_id = useAppSelector((state) => state.player.deviceId);
+
+  const nowPlaying = useAppSelector((state) => state.player.currentTrack?.id);
+
   const curTrack =
     props.displayType == "playlist"
       ? (props.track as SpotifyApi.PlaylistTrackObject).track
       : (props.track as SpotifyApi.TrackObjectFull);
+
+  const handlePlay = () => {
+    playTrack({
+      device_id: device_id!,
+      context_uri: contextUri,
+      offset: { uri: curTrack.uri },
+    });
+  };
 
   return (
     <div
@@ -25,11 +54,16 @@ export default function TrackRow(props: Props) {
             ? "16px 4fr 2fr minmax(120px, 1fr)"
             : "16px 6fr 4fr 3fr minmax(120px, 1fr)",
       }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
-      <div className="col-span-1 flex flex-col justify-center items-center">
-        {props.index}
+      <div
+        className="col-span-1 flex flex-col justify-center items-center"
+        style={{ userSelect: "none" }}
+      >
+        {hovered ? <FaPlay size={16} onClick={handlePlay} /> : props.index}
       </div>
-      <div className="col-span-1 flex flex-row justify-start items-center">
+      <div className={`col-span-1 flex flex-row justify-start items-center`}>
         <Image
           src={
             // @ts-ignore
@@ -48,7 +82,18 @@ export default function TrackRow(props: Props) {
           width={40}
           height={40}
         />
-        <div className="flex flex-col justify-center items-start ml-4 line-clamp-1">
+        <div
+          className={`flex flex-col justify-center items-start ml-4 line-clamp-1 ${
+            nowPlaying ==
+            (props.displayType == "playlist"
+              ? ((props.track as SpotifyApi.PlaylistTrackObject)
+                  .track as SpotifyApi.TrackObjectFull)
+              : (props.track as SpotifyApi.TrackObjectFull)
+            ).id
+              ? "text-spotify-green"
+              : ""
+          }`}
+        >
           <span className="line-clamp-1">
             {
               (props.displayType == "playlist"
@@ -58,7 +103,7 @@ export default function TrackRow(props: Props) {
               ).name
             }
           </span>
-          <div className="text-zinc-400">
+          <div className={`${hovered ? "text-white" : "text-zinc-400"}`}>
             <span className="line-clamp-1">
               {(props.displayType == "playlist"
                 ? ((props.track as SpotifyApi.PlaylistTrackObject)

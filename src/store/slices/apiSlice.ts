@@ -149,6 +149,16 @@ export const apiSlice = createApi({
         },
       }),
     }),
+    playCollectionWithOffset: builder.mutation<void, { device_id: string, context_uri?: string, offset: { position?: number, uri?: string } }>({
+      query: (params) => ({
+        url: `me/player/play`,
+        method: "PUT",
+        body: JSON.stringify(params),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
     pause: builder.mutation<void, { device_id: string }>({
       query: (params) => ({
         url: `me/player/pause`,
@@ -250,6 +260,7 @@ export const {
   useGetSingleAlbumQuery,
   usePlayMutation,
   usePlayCollectionMutation,
+  usePlayCollectionWithOffsetMutation,
   useTransferPlaybackMutation,
   usePauseMutation,
   useNextMutation,
