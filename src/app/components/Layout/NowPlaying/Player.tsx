@@ -1,40 +1,28 @@
 "use client";
 
-import { useAppDispatch, useAppSelector } from "@/lib/hooks/hooks";
+import { PlayerContext } from "@/lib/contexts/playerContext";
+import { useAppDispatch } from "@/lib/hooks/hooks";
 import useAuth from "@/lib/hooks/useAuth";
-import {
-  useLazyRefreshAccessTokenQuery,
-  useTransferPlaybackMutation,
-} from "@/store/slices/apiSlice";
+import { useTransferPlaybackMutation } from "@/store/slices/apiSlice";
 import {
   setCurrentTrack,
   setDeviceId,
   setTrackStatus,
 } from "@/store/slices/playerSlice";
 import { useContext, useEffect, useState } from "react";
+import DeviceControls from "./DeviceControls";
 import PlayerControls from "./PlayerControls";
 import PlayerInfo from "./PlayerInfo";
-import DeviceControls from "./DeviceControls";
-import { PlayerContext } from "@/lib/contexts/playerContext";
 
 export default function Player() {
   const [player, setPlayer] = useState<Spotify.Player | null>(null);
-  const [transferPlayback, transferResult] = useTransferPlaybackMutation();
+  const [transferPlayback] = useTransferPlaybackMutation();
 
   const playerContext = useContext(PlayerContext);
-
-  const loggedIn = useAppSelector(
-    (state) => state.spotifyApi.userAuthenticated
-  );
 
   const auth = useAuth();
 
   const dispatch = useAppDispatch();
-
-  // const accessToken = Cookies.get("access_token");
-
-  const [trigger, { isLoading, isError, data, error }] =
-    useLazyRefreshAccessTokenQuery();
 
   useEffect(() => {
     // console.log(props.token);
@@ -55,15 +43,13 @@ export default function Player() {
       });
 
       setPlayer(player);
-      playerContext.setPlayer(player);
 
       player.addListener("ready", ({ device_id }) => {
         console.log("Ready with Device ID", device_id);
         dispatch(setDeviceId({ id: device_id }));
         transferPlaybackHere(device_id);
-        setTimeout(() => {
-          // playerContext.setPlayer(player);
-        }, 2500);
+        // setTimeout(() => {
+        // }, 2500);
       });
 
       player.addListener("not_ready", ({ device_id }) => {
@@ -88,32 +74,17 @@ export default function Player() {
 
       player.connect();
 
-      // player.setVolume(0.3);
-
       // make the current device this one
       async function transferPlaybackHere(deviceId: string) {
-        // first get available devices
-        await fetch("https://api.spotify.com/v1/me/player/devices", {
-          headers: {
-            Authorization: `Bearer ${auth.accessToken}`,
-          },
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            // console.log(data);
-          });
-
         // // transfer playback to this device
         transferPlayback({ device_ids: [deviceId], play: false });
-
-        // playerContext.setPlayer(player);
       }
     };
 
     return () => {
       document.body.removeChild(script);
     };
-  }, [auth.accessToken]);
+  }, [auth.accessToken, dispatch, playerContext, transferPlayback]);
 
   return (
     <div className="col-span-3">
@@ -126,11 +97,11 @@ export default function Player() {
             <PlayerControls />
           </div>
           <div className="w-[30%] text-right">
-            <DeviceControls />
+            <DeviceControls player={player} />
           </div>
         </div>
       ) : (
-        <div>Not logged in</div>
+        <div></div>
       )}
     </div>
   );

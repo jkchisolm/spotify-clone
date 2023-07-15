@@ -4,39 +4,33 @@ import { PlayerContext } from "@/lib/contexts/playerContext";
 import { useContext, useEffect, useRef, useState } from "react";
 import { FaVolumeHigh } from "react-icons/fa6";
 import styles from "./DeviceControls.module.css";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks/hooks";
 
-export default function DeviceControls() {
+type Props = {
+  player: Spotify.Player;
+};
+
+export default function DeviceControls(props: Props) {
   const [volume, changeVolume] = useState(0.5);
 
-  const playerContext = useContext(PlayerContext);
+  // const playerContext = useContext(PlayerContext);
 
   const volumeBar = useRef<HTMLInputElement>(null);
 
   const handleVolumeChange = async () => {
     const pos = volumeBar.current!.value;
-    // console.log(pos / 100);
-    // changeVolume({ device_id: deviceId!, volume: Math.round(pos) });
-    if (playerContext.player) {
-      // console.log("changing vol");
-      // await playerContext.player.setVolume(Math.round(parseInt(pos)) / 100);
-      // playerContext.player
-      //   .setVolume(Math.round(parseInt(pos)) / 100)
-      //   .then(() => {
-      //     console.log("volume changed");
-      //   })
-      //   .catch((err) => {
-      //     // console.log(err);
-      //   });
+
+    if (props.player) {
+      // await props.player.setVolume(Math.round(parseInt(pos)) / 100);
       changeVolume(Math.round(parseInt(pos)) / 100);
     }
   };
 
   useEffect(() => {
     async function getCurrentVolume() {
-      const vol = await playerContext.player?.getVolume();
-      changeVolume(vol!);
+      // const vol = await props.player.getVolume();
+      // changeVolume(vol!);
     }
-
     getCurrentVolume();
   });
 

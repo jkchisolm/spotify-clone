@@ -1,10 +1,9 @@
 "use client";
 
 import { useAppSelector } from "@/lib/hooks/hooks";
-import styles from "./Seekbar.module.css";
-import { stat } from "fs";
-import { useEffect, useRef, useState } from "react";
 import { useSeekMutation } from "@/store/slices/apiSlice";
+import { useEffect, useRef, useState } from "react";
+import styles from "./Seekbar.module.css";
 
 export default function Seekbar() {
   const progressBar = useRef<HTMLInputElement>(null);
@@ -103,7 +102,7 @@ export default function Seekbar() {
       );
     }
     // if the current track changes, reset the progress bar
-  }, [currentProgressFromState, duration, curTrack]);
+  }, [currentProgressFromState, duration, curTrack, prevTrack]);
 
   return (
     <div className="w-full h-3 flex flex-row justify-center items-center mt-3 relative">

@@ -6,8 +6,10 @@ import "./globals.css";
 
 import { ApiContext, ApiContextProvider } from "@/lib/contexts/apiContext";
 import {
-  StyleContext,
-  StyleContextProvider,
+  PlayerContextProvider
+} from "@/lib/contexts/playerContext";
+import {
+  StyleContextProvider
 } from "@/lib/contexts/styleContext";
 import useAuth from "@/lib/hooks/useAuth";
 import { Montserrat } from "next/font/google";
@@ -16,10 +18,6 @@ import { store } from "../store/store";
 import BodyContainer from "./components/Layout/General/BodyContainer";
 import Player from "./components/Layout/NowPlaying/Player";
 import Topbar from "./components/Layout/Topbar/Topbar";
-import {
-  PlayerContext,
-  PlayerContextProvider,
-} from "@/lib/contexts/playerContext";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -37,10 +35,6 @@ export default function RootLayout({
   const auth = useAuth();
 
   const apiContext = useContext(ApiContext);
-  const styleContext = useContext(StyleContext);
-  const playerContext = useContext(PlayerContext);
-
-  const [topbarOpacity, setTopbarOpacity] = useState("");
 
   return (
     <Provider store={store}>

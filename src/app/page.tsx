@@ -2,7 +2,10 @@
 
 import { ApiContext } from "@/lib/contexts/apiContext";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks/hooks";
-import { useLazyGetUserPlaylistsQuery } from "@/store/slices/apiSlice";
+import {
+  useLazyGetCategoryPlaylistsQuery,
+  useLazyGetUserPlaylistsQuery,
+} from "@/store/slices/apiSlice";
 import Cookies from "js-cookie";
 import { useContext, useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
@@ -12,12 +15,6 @@ import { StyleContext } from "@/lib/contexts/styleContext";
 import useAuth from "@/lib/hooks/useAuth";
 
 export default function Home() {
-  const loggedIn = useAppSelector(
-    (state) => state.spotifyApi.userAuthenticated
-  );
-
-  const dispatch = useAppDispatch();
-
   const apiContext = useContext(ApiContext);
   const styleContext = useContext(StyleContext);
   const auth = useAuth();
