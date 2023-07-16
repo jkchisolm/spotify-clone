@@ -2,7 +2,10 @@
 
 import { ApiContext } from "@/lib/contexts/apiContext";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks/hooks";
-import { useLazyGetUserPlaylistsQuery } from "@/store/slices/apiSlice";
+import {
+  useLazyGetCategoryPlaylistsQuery,
+  useLazyGetUserPlaylistsQuery,
+} from "@/store/slices/apiSlice";
 import Cookies from "js-cookie";
 import { useContext, useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
@@ -10,14 +13,9 @@ import CategoryRow from "./components/Layout/MusicDisplays/CategoryRow";
 import UserPlaylistRow from "./components/Layout/MusicDisplays/Playlist/UserPlaylistRow";
 import { StyleContext } from "@/lib/contexts/styleContext";
 import useAuth from "@/lib/hooks/useAuth";
+import { Helmet } from "react-helmet";
 
 export default function Home() {
-  const loggedIn = useAppSelector(
-    (state) => state.spotifyApi.userAuthenticated
-  );
-
-  const dispatch = useAppDispatch();
-
   const apiContext = useContext(ApiContext);
   const styleContext = useContext(StyleContext);
   const auth = useAuth();
@@ -75,15 +73,22 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (auth.refreshToken != "" && apiContext.refreshing != true) {
+    if (
+      auth.refreshToken != "" &&
+      apiContext.refreshing != true &&
+      auth.refreshing != true
+    ) {
       triggerGetUserPlaylists({ limit: 50 });
       fetchTopPlaylists();
       fetchFeaturedPlaylists();
     }
-  }, [auth.refreshToken]);
+  }, [auth.refreshToken, apiContext.refreshing, auth.refreshing]);
 
   return (
     <div className="text-white w-full bg-transparent">
+      <Helmet>
+        <title>Home | Recreatify</title>
+      </Helmet>
       {auth.refreshToken != "" && auth.accessToken ? (
         <div className="">
           <div className="text-3xl font-bold py-3">{welcomeString}</div>
@@ -105,11 +110,13 @@ export default function Home() {
                       description: playlist.description!,
                       imageUrl: playlist.images[0].url,
                       url: `/playlist/${playlist.id}`,
+                      uri: playlist.uri,
                     };
                   })}
                   rowName="Top Playlists"
                   rowCategory="toplists"
                   useShowAllButton={true}
+                  showAllUrl={"/search/category/toplists"}
                 />
               </div>
             )}
@@ -124,11 +131,13 @@ export default function Home() {
                       description: playlist.description!,
                       imageUrl: playlist.images[0].url,
                       url: `/playlist/${playlist.id}`,
+                      uri: playlist.uri,
                     };
                   })}
                   rowName={featuredPlaylistMessage}
                   rowCategory="featured"
                   useShowAllButton={true}
+                  showAllUrl={"/search/"}
                 />
               </div>
             )}

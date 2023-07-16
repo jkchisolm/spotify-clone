@@ -5,6 +5,7 @@ export default function useAuth() {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [refreshToken, setRefreshToken] = useState<string | null>(null);
   const [expiresIn, setExpiresIn] = useState<number | null>(null);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
 
   async function handleRefresh() {
     const res = await fetch("/api/refreshToken", { method: "POST" });
@@ -48,11 +49,13 @@ export default function useAuth() {
         refreshToken &&
         Date.now() - Number(Cookies.get("creation_time"))! > expiresIn! * 1000)
     ) {
+      setRefreshing(true);
       handleRefresh()
         .then((res) => {
           if (res) {
             setAccessToken(Cookies.get("access_token")!);
             setExpiresIn(Number(Cookies.get("expires_in")));
+            setRefreshing(false);
           } else {
             console.log("error refreshing token");
           }
@@ -64,11 +67,13 @@ export default function useAuth() {
       // we have an access token, so we use setInterval to refresh the token a minute before expiration
       const interval = setInterval(
         () => {
+          setRefreshing(true);
           handleRefresh()
             .then((res) => {
               if (res) {
                 setAccessToken(Cookies.get("access_token")!);
                 setExpiresIn(Number(Cookies.get("expires_in")));
+                setRefreshing(false);
               } else {
                 console.log("error refreshing token");
               }
@@ -83,5 +88,5 @@ export default function useAuth() {
     }
   }, [accessToken, refreshToken, expiresIn]);
 
-  return { accessToken, refreshToken, expiresIn, logout };
+  return { accessToken, refreshToken, expiresIn, refreshing, logout };
 }

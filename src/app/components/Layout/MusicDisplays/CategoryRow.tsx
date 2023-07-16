@@ -7,6 +7,7 @@ type CategoryCard = {
   imageUrl: string;
   url: string;
   id: string;
+  uri?: string;
 };
 
 type Props = {
@@ -17,6 +18,7 @@ type Props = {
   showAllUrl?: string;
   rounded?: boolean;
   clampOne?: boolean;
+  uri?: string;
 };
 
 export default function CategoryRow({
@@ -50,6 +52,7 @@ export default function CategoryRow({
             imageUrl={item.imageUrl}
             imageType={rounded ? "circle" : "square"}
             url={item.url}
+            uri={item.uri}
             id={item.id}
             clampOne={clampOne}
           />

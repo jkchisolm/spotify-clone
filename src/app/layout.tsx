@@ -1,14 +1,12 @@
 "use client";
 
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Navbar from "./components/Layout/Navbar/Navbar";
 import "./globals.css";
 
 import { ApiContext, ApiContextProvider } from "@/lib/contexts/apiContext";
-import {
-  StyleContext,
-  StyleContextProvider,
-} from "@/lib/contexts/styleContext";
+import { PlayerContextProvider } from "@/lib/contexts/playerContext";
+import { StyleContextProvider } from "@/lib/contexts/styleContext";
 import useAuth from "@/lib/hooks/useAuth";
 import { Montserrat } from "next/font/google";
 import { Provider } from "react-redux";
@@ -20,6 +18,7 @@ import Topbar from "./components/Layout/Topbar/Topbar";
 const montserrat = Montserrat({
   subsets: ["latin"],
   display: "swap",
+  adjustFontFallback: false,
 });
 
 export default function RootLayout({
@@ -28,13 +27,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const [queueOpen, setQueueOpen] = useState(false);
+  const [title, setTitle] = useState("");
 
   const auth = useAuth();
 
   const apiContext = useContext(ApiContext);
-  const styleContext = useContext(StyleContext);
-
-  const [topbarOpacity, setTopbarOpacity] = useState("");
 
   return (
     <Provider store={store}>
@@ -46,14 +43,17 @@ export default function RootLayout({
               <div
                 className={`${
                   queueOpen ? "col-span-1" : "col-span-2 scrollbox"
-                } flex flex-col overflow-auto relative `}
+                } flex flex-col relative transition-all duration-500 ease-in-out`}
+                style={{ overflow: "overlay" }}
               >
                 <BodyContainer>
                   <Topbar refreshingToken={apiContext.refreshing} />
                   {children}
                 </BodyContainer>
               </div>
-              <Player />
+              <PlayerContextProvider>
+                <Player />
+              </PlayerContextProvider>
             </body>
           </html>
         </StyleContextProvider>

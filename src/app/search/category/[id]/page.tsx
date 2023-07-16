@@ -5,6 +5,7 @@ import {
   useGetCategoryPlaylistsQuery,
   useGetSingleCategoryQuery,
 } from "@/store/slices/apiSlice";
+import { Helmet } from "react-helmet";
 
 type Props = {
   categoryId: string;
@@ -28,6 +29,9 @@ export default function SearchCategoryPage({
     <div className="">
       {data && categoryInfo && (
         <div className="bg-transparent text-white pt-8 px-3 flex flex-col pb-4">
+          <Helmet>
+            <title>{categoryInfo.name} | Recreatify</title>
+          </Helmet>
           <div className="text-7xl text-white font-bold pt-16 mb-20">
             {categoryInfo.name}
           </div>
@@ -52,6 +56,7 @@ export default function SearchCategoryPage({
                     imageType="square"
                     url={`/playlist/${playlist.id}`}
                     id={playlist.id}
+                    uri={playlist.uri}
                   />
                 );
               })}

@@ -9,6 +9,7 @@ type Props = {
   imageUrl: string;
   imageType: "circle" | "square";
   url: string;
+  uri?: string;
   id: string;
   clampOne?: boolean;
 };
@@ -35,7 +36,7 @@ export default function InfoCard(props: Props) {
           />
           <div className="absolute bottom-3 right-3 shadow-xl">
             <div className="w-12 h-12">
-              <PlayButton requireHover />
+              <PlayButton requireHover playContext={props.uri} />
             </div>
           </div>
         </div>

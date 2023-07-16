@@ -113,6 +113,125 @@ export const apiSlice = createApi({
         },
       }),
     }),
+    transferPlayback: builder.mutation<
+      void,
+      { device_ids: string[]; play: boolean }
+    >({
+      query: (params) => ({
+        url: "me/player",
+        method: "PUT",
+        body: JSON.stringify(params),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+    play: builder.mutation<void, { device_id: string; uris: string[] }>({
+      query: (params) => ({
+        url: "me/player/play",
+        method: "PUT",
+        body: JSON.stringify(params),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+    playCollection: builder.mutation<
+      void,
+      { device_id: string; context_uri?: string }
+    >({
+      query: (params) => ({
+        url: `me/player/play`,
+        method: "PUT",
+        body: JSON.stringify(params),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+    playCollectionWithOffset: builder.mutation<void, { device_id: string, context_uri?: string, offset: { position?: number, uri?: string } }>({
+      query: (params) => ({
+        url: `me/player/play`,
+        method: "PUT",
+        body: JSON.stringify(params),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+    pause: builder.mutation<void, { device_id: string }>({
+      query: (params) => ({
+        url: `me/player/pause`,
+        method: "PUT",
+        body: JSON.stringify(params),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+    next: builder.mutation<void, { device_id: string }>({
+      query: (params) => ({
+        url: `me/player/next`,
+        method: "POST",
+        body: JSON.stringify(params),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+    previous: builder.mutation<void, { device_id: string }>({
+      query: (params) => ({
+        url: `me/player/previous`,
+        method: "POST",
+        body: JSON.stringify(params),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+    repeat: builder.mutation<
+      void,
+      { device_id: string; state: "off" | "track" | "context" }
+    >({
+      query: (params) => ({
+        url: `me/player/repeat?state=${params.state}`,
+        method: "PUT",
+        body: JSON.stringify(params),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+    shuffle: builder.mutation<void, { device_id: string; state: boolean }>({
+      query: (params) => ({
+        url: `me/player/shuffle?state=${params.state}`,
+        method: "PUT",
+        body: JSON.stringify(params),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+    seek: builder.mutation<void, { device_id: string; position_ms: number }>({
+      query: (params) => ({
+        url: `me/player/seek?position_ms=${params.position_ms}`,
+        method: "PUT",
+        body: JSON.stringify(params),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+    changeVolume: builder.mutation<void, { device_id: string, volume: number }>({
+      query: (params) => ({
+        url: `me/player/volume?volume_percent=${params.volume}`,
+        method: "PUT",
+        body: JSON.stringify(params),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    })
   }),
 });
 
@@ -139,4 +258,15 @@ export const {
   useGetArtistTopTracksQuery,
   useGetArtistRelatedArtistsQuery,
   useGetSingleAlbumQuery,
+  usePlayMutation,
+  usePlayCollectionMutation,
+  usePlayCollectionWithOffsetMutation,
+  useTransferPlaybackMutation,
+  usePauseMutation,
+  useNextMutation,
+  usePreviousMutation,
+  useRepeatMutation,
+  useShuffleMutation,
+  useSeekMutation,
+  useChangeVolumeMutation,
 } = apiSlice;

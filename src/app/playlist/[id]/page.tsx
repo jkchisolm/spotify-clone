@@ -1,25 +1,28 @@
 "use client";
 
+import TrackContainer from "@/app/components/Layout/MusicDisplays/Tracks/TrackContainer";
+import PlayButton from "@/app/components/general/PlayButton";
 import { StyleContext } from "@/lib/contexts/styleContext";
+import { sanitizeDescription } from "@/lib/helpers/sanitizeDescription";
 import {
   useGetSinglePlaylistQuery,
   useLazyGetPlaylistItemsWithOffsetQuery,
 } from "@/store/slices/apiSlice";
 import { FastAverageColor } from "fast-average-color";
+import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import { MoonLoader } from "react-spinners";
-import Image from "next/image";
-import PlayButton from "@/app/components/general/PlayButton";
-import TrackContainer from "@/app/components/Layout/MusicDisplays/Tracks/TrackContainer";
-import { sanitizeDescription } from "@/lib/helpers/sanitizeDescription";
-import { formatDate } from "@/lib/helpers/formatDate";
+
+type Props = {
+  params: { id: string };
+};
 
 export default function PlaylistPage() {
   const params = useParams();
 
   const styleContext = useContext(StyleContext);
-  const [headerGradient, setHeaderGradient] = useState("");
   const [tracks, setTracks] = useState<SpotifyApi.PlaylistTrackObject[]>([]);
 
   const { data, isLoading, isError } = useGetSinglePlaylistQuery({
@@ -59,20 +62,14 @@ export default function PlaylistPage() {
       trigger({ id: params.id, offset: 100 }).then((res) => {
         console.log(res.data!.items);
         curTracks = [...curTracks, ...res.data!.items];
-        // setTracks([...tracks, ...res.data!.items]);
         setTracks(curTracks);
-        // newTracks = [...tracks, ...res.data!.items];
       });
 
       trackCount -= 50;
 
       while (trackCount > 0) {
-        // use a timeout of 500ms to avoid rate limiting
-        // console.log(tracks[0].track.name);
-
         setTimeout(() => {}, 500);
         trigger({ id: params.id, offset: 100 + i * 50 }).then((res) => {
-          // setTracks([...tracks, ...res.data!.items]);
           curTracks = [...curTracks, ...res.data!.items];
           setTracks(curTracks);
           console.log(curTracks);
@@ -82,7 +79,6 @@ export default function PlaylistPage() {
       }
 
       console.log(newTracks);
-      // setTracks(newTracks);
       console.log(tracks);
     }
   }, [data]);
@@ -102,6 +98,11 @@ export default function PlaylistPage() {
         <div
           className={`h-full w-full flex flex-col justify-start items-center pt-4`}
         >
+          <Helmet>
+            <title>
+              {data.name} - a playlist by {data.owner.display_name} | Recreatify{" "}
+            </title>
+          </Helmet>
           <div className="flex flex-row justify-start items-center w-full">
             <div
               className="relative drop-shadow-2xl shadow-black"
@@ -137,7 +138,11 @@ export default function PlaylistPage() {
           </div>
           <div className="flex flex-row justify-start items-center w-full mt-10">
             <div className="w-16 h-16">
-              <PlayButton requireHover={false} fontSize="text-4xl" />
+              <PlayButton
+                requireHover={false}
+                fontSize="text-4xl"
+                playContext={data.uri}
+              />
             </div>
           </div>
           <div className="mt-4">
@@ -149,6 +154,7 @@ export default function PlaylistPage() {
                   : data.tracks.items
               }
               displayType="playlist"
+              playlistUri={data.uri}
             />
           </div>
         </div>
