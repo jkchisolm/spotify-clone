@@ -28,6 +28,9 @@ export default function Seekbar() {
   const [seek] = useSeekMutation();
 
   const updateProgress = () => {
+    if (duration) {
+      progressBar.current!.max = duration!.toString();
+    }
     setCurProgress((prev) => prev + 1000);
     progressBar!.current!.style.setProperty(
       "--seek-before-width",
@@ -57,15 +60,25 @@ export default function Seekbar() {
     if (curTrack != prevTrack) {
       setPrevTrack(curTrack as string);
       // wait a second, then change
+      // update max duration
+      if (duration) {
+        progressBar.current!.max = duration!.toString();
+      }
       setTimeout(() => {
         setCurProgress(0);
         progressBar!.current!.style.setProperty("--seek-before-width", `1%`);
       }, 100);
+    } else if (curTrack == prevTrack && currentProgressFromState == 0) {
+      setCurProgress(0);
+      progressBar!.current!.style.setProperty("--seek-before-width", `1%`);
     }
-  }, [curTrack, prevTrack]);
+  }, [curTrack, prevTrack, currentProgressFromState]);
 
   useEffect(() => {
     // useEffect to increase curProgress every second while song is playing
+    if (duration) {
+      progressBar.current!.max = duration!.toString();
+    }
     if (isPlaying && duration && progressBar.current) {
       progressBar!.current!.style.setProperty(
         "--seek-before-width",
@@ -106,7 +119,7 @@ export default function Seekbar() {
 
   return (
     <div className="w-full h-3 flex flex-row justify-center items-center mt-3 relative">
-      <div>
+      <div className="w-8 min-w-[2rem] max-w-8">
         {
           // convert current progress into mm:ss, add a 0 if seconds is less than 10
           curProgress
@@ -125,7 +138,7 @@ export default function Seekbar() {
         ref={progressBar}
         onChange={seekToPosition}
       />
-      <div>
+      <div className="w-8">
         {
           // convert duration into mm:ss, add a 0 if seconds is less than 10
           duration

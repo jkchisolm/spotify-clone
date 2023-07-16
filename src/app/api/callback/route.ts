@@ -10,8 +10,6 @@ export async function GET(request: NextRequest) {
   const urlParams = new URLSearchParams(url.split("?")[1]);
   const code = urlParams.get("code");
 
-  console.log(code);
-
   const response = await fetch("https://accounts.spotify.com/api/token", {
     method: "POST",
     headers: {
@@ -38,8 +36,6 @@ export async function GET(request: NextRequest) {
   if (!data.error && response.status == 200) {
     let access_token = data.access_token;
     let refresh_token = data.refresh_token;
-
-    console.log("setting and responding");
 
     const cookieStore = cookies();
     cookieStore.set("access_token", access_token);
