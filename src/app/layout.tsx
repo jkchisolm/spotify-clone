@@ -43,12 +43,12 @@ export default function RootLayout({
               <div
                 className={`${
                   queueOpen ? "col-span-1" : "col-span-2 scrollbox"
-                } flex flex-col relative transition-all duration-500 ease-in-out`}
+                } flex flex-col relative transition-all duration-500 ease-in-out rounded-t-lg`}
                 style={{ overflow: "overlay" }}
               >
                 <BodyContainer>
                   <Topbar refreshingToken={apiContext.refreshing} />
-                  {children}
+                  <div className="z-10">{children}</div>
                 </BodyContainer>
               </div>
               <PlayerContextProvider>

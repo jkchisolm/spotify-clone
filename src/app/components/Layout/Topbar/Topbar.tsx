@@ -45,15 +45,15 @@ export default function Topbar({ refreshingToken }: Props) {
   };
 
   return (
-    <div className="flex flex-col justify-start items-stretch z-10 transition-all rounded-t bg-transparent">
+    <div className="flex flex-col justify-start items-stretch z-10 transition-all rounded-t bg-transparent z-20">
       <div className={` text-white flex flex-row justify-between items-center`}>
-        <div className="flex flex-row justify-start items-center grow">
+        <div className="flex flex-row justify-start items-center grow z-20">
           <BrowsingControls />
           <Searchbar />
         </div>
 
         {auth.accessToken ? (
-          <div className="grow text-right">
+          <div className="grow text-right z-20">
             <div className="flex flex-row justify-end items-center">
               <div className="text-white bg-black px-2 py-1 rounded-full font-semibold">
                 {data?.display_name}

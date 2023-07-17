@@ -63,6 +63,7 @@ export default function ArtistPage() {
         setBgGradient(color.hex);
         setMainColor(color);
         colorContext.setTopbarBG(color.hex);
+        colorContext.setBackgroundUrl(data?.images[0].url!);
       });
     }
 
@@ -82,7 +83,7 @@ export default function ArtistPage() {
   }
 
   return (
-    <div className="min-h-fit">
+    <div className="min-h-fit z-10">
       {data ? (
         <div
           className={`h-full w-full flex flex-col justify-start items-center pt-10 pb-4 bg-transparent`}
@@ -90,7 +91,7 @@ export default function ArtistPage() {
           <Helmet>
             <title>{data.name} | Recreatify</title>
           </Helmet>
-          <div className="flex flex-row justify-start items-center w-full">
+          <div className="flex flex-row justify-start items-center w-full z-20">
             <div
               className="relative"
               style={{ width: "200px", height: "200px" }}
@@ -109,14 +110,14 @@ export default function ArtistPage() {
                 fill
               />
             </div>
-            <div className="flex flex-col ml-5">
-              <h1 className="text-7xl font-extrabold text-white">
+            <div className="flex flex-col ml-5 drop-shadow-2xl">
+              <h1 className="text-7xl font-extrabold text-white drop-shadow-2xl">
                 {data.name}
               </h1>
-              <div className="mt-4 text-gray-400">
+              <div className="mt-4 text-white drop-shadow-2xl">
                 <p
                   className={`text-lg`}
-                  style={{ textShadow: "#000 1px 0 10px" }}
+                  // style={{ textShadow: "#000 1px 0 10px" }}
                 >
                   {
                     // format follower count
@@ -129,7 +130,7 @@ export default function ArtistPage() {
               </div>
             </div>
           </div>
-          <div className="flex flex-row justify-start items-center w-full mt-5">
+          <div className="flex flex-row justify-start items-center w-full mt-5 z-20">
             <div className="w-16 h-16">
               <PlayButton
                 fontSize="text-4xl"
@@ -138,6 +139,7 @@ export default function ArtistPage() {
               />
             </div>
           </div>
+          <div className="w-full flex flex-col justify-start items-center"></div>
           <div className="flex flex-col justify-start items-start w-full mt-5 pt-10 bg-transparent">
             <h1 className="text-2xl font-bold text-white pl-2 mb-2">Popular</h1>
             {artistTopTracks ? (
