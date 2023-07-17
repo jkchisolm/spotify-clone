@@ -36,6 +36,12 @@ export default function PlaylistPage() {
     async function getColor() {
       fac.getColorAsync(data?.images[0].url!).then((color) => {
         styleContext.setTopbarBG(color.hex);
+        // styleContext.setBackgroundUrl(data?.images[0].url!);
+        if (data?.owner.display_name == "Spotify") {
+          styleContext.setBackgroundUrl(data?.images[0].url!);
+        } else {
+          styleContext.setBackgroundUrl("");
+        }
       });
     }
 
@@ -103,7 +109,7 @@ export default function PlaylistPage() {
               {data.name} - a playlist by {data.owner.display_name} | Recreatify{" "}
             </title>
           </Helmet>
-          <div className="flex flex-row justify-start items-center w-full">
+          <div className="flex flex-row justify-start items-center w-full z-20">
             <div
               className="relative drop-shadow-2xl shadow-black"
               style={{ width: "225px", height: "225px" }}
@@ -115,19 +121,19 @@ export default function PlaylistPage() {
                 fill
               />
             </div>
-            <div className="flex flex-col justify-start items-start ml-4">
+            <div className="flex flex-col justify-start items-start ml-4 drop-shadow-2xl">
               <h1 className="text-sm font-bold text-white">
                 {data.type.charAt(0).toUpperCase() + data.type.slice(1)}
               </h1>
               <p className="text-white text-7xl font-bold my-2">{data.name}</p>
-              <div className="text-spotify-gray-text text-sm leading-5 min-h-[1.25rem]">
+              <div className="text-white text-sm leading-5 min-h-[1.25rem]">
                 {/* @ts-ignore */}
                 {sanitizeDescription(data.description)}
               </div>
               <div className="text-white text-sm">
                 <span className="font-bold">{data.owner.display_name}</span>{" "}
                 &#x2022; {data.tracks.total} songs,{" "}
-                <span className="text-spotify-gray-text">
+                <span className="text-white">
                   {data.followers.total
                     .toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{" "}
@@ -136,7 +142,7 @@ export default function PlaylistPage() {
               </div>
             </div>
           </div>
-          <div className="flex flex-row justify-start items-center w-full mt-10">
+          <div className="flex flex-row justify-start items-center w-full mt-5 mb-5 z-20">
             <div className="w-16 h-16">
               <PlayButton
                 requireHover={false}
